@@ -8,56 +8,6 @@
 		{
 			"name": "Get Actuator",
 			"request": {
-				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "scope",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "authUrl",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "tokenType",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "accessToken",
-							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTSVFuZ2lrTGRqZXlDNGFHTVpqWUthZVJKSHp5cmxreU9HY0JONTEza1F3In0.eyJleHAiOjE2MzAwMDQ5NjksImlhdCI6MTYzMDAwNDY2OSwianRpIjoiMzc0YTkzMTItN2MwOC00MTczLTliZDItNDJjNjgwM2EwNDJiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmNlYTA4NzUtMDkwYy00ZGVkLTk4NWMtNWU4YmZhOWE0NWMwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibG9naW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjY1MmRmM2EzLTJjMWYtNDFmMi1hY2JhLTM0NzhmZTY4NDBkNSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiLCJkZWZhdWx0LXJvbGVzLWluZXN0Il19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMSJ9.H6OovqRgoPszf_WlHlr6-XRlhiKKhUNb4vuHaTMux2VL94iBCFFLAXi4LqjfFfboXahshFgcFNz1w3QXXHFJ4IwdIYndl2_IbBp_njgB6e3m6nCpblyUuXBriAS__7l8ZADymIETmCD4XbDqYq53qbj0fQ3WBaXIBXMwNXTT3SvrMeoqEvkGTtVKE95UCYjPIqqXGXMYQ1FbzxBrlQ704W0ui-g3CpGYzqS_Lj59_2uXp9nxkeFscJF-720vpmMsh4Hv35k11jh_fV2UjfCLKI9oTIrNcmPJ1D3YSueJ_G1YRzzVgmkoTRxSultsqjml-UU1kmS04GobnMxmwurPuQ",
-							"type": "string"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						},
-						{
-							"key": "accessTokenUrl",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "challengeAlgorithm",
-							"value": "S256",
-							"type": "string"
-						},
-						{
-							"key": "grant_type",
-							"value": "authorization_code",
-							"type": "string"
-						},
-						{
-							"key": "client_authentication",
-							"value": "header",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -84,7 +34,7 @@
 					"urlencoded": [
 						{
 							"key": "client_id",
-							"value": "login-app",
+							"value": "client-app",
 							"type": "text"
 						},
 						{
@@ -244,6 +194,9 @@
 		{
 			"name": "Get Refresh Token",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -251,12 +204,12 @@
 					"urlencoded": [
 						{
 							"key": "client_id",
-							"value": "login-app",
+							"value": "client-app",
 							"type": "text"
 						},
 						{
 							"key": "refresh_token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzNWNiMDRmYi1hZDk2LTQzOGUtYTU0NC1kZTc5OTgzOWIyNDMifQ.eyJleHAiOjE2MzAwMDUxOTksImlhdCI6MTYzMDAwMzM5OSwianRpIjoiNGM2OTMyNTItYzI3OS00ZThkLWIwY2MtN2ZmZjIxMzk3YzRmIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIwMDEvYXV0aC9yZWFsbXMvaW5lc3RLZXljbG9hayIsInN1YiI6IjJjZWEwODc1LTA5MGMtNGRlZC05ODVjLTVlOGJmYTlhNDVjMCIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJsb2dpbi1hcHAiLCJzZXNzaW9uX3N0YXRlIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1Iiwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1In0.q25TeIazx3yhhizWPVoM2cQ8lsz-N3xI2C7UTPe7wYY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzNWNiMDRmYi1hZDk2LTQzOGUtYTU0NC1kZTc5OTgzOWIyNDMifQ.eyJleHAiOjE2MzAwMTYwNzcsImlhdCI6MTYzMDAxNDI3NywianRpIjoiOGJhY2Y0YWItNzhhMy00ZGY1LWI3OTctMDU4YmNkZjFjMTdjIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIwMDEvYXV0aC9yZWFsbXMvaW5lc3RLZXljbG9hayIsInN1YiI6IjJjZWEwODc1LTA5MGMtNGRlZC05ODVjLTVlOGJmYTlhNDVjMCIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJjbGllbnQtYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjBlZGI4MWZmLThiZTgtNGM1OS1hOTk5LWVmYmRkOTdmMzczZiIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjBlZGI4MWZmLThiZTgtNGM1OS1hOTk5LWVmYmRkOTdmMzczZiJ9.4shlQXZYS445t_0XZ-mdWIzyut6rExaafpNTTFtSi8k",
 							"type": "text"
 						},
 						{
@@ -293,56 +246,6 @@
 		{
 			"name": "Get All UserTEST",
 			"request": {
-				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "scope",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "authUrl",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "tokenType",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "accessToken",
-							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTSVFuZ2lrTGRqZXlDNGFHTVpqWUthZVJKSHp5cmxreU9HY0JONTEza1F3In0.eyJleHAiOjE2MzAwMDQ5NjksImlhdCI6MTYzMDAwNDY2OSwianRpIjoiMzc0YTkzMTItN2MwOC00MTczLTliZDItNDJjNjgwM2EwNDJiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmNlYTA4NzUtMDkwYy00ZGVkLTk4NWMtNWU4YmZhOWE0NWMwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibG9naW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjY1MmRmM2EzLTJjMWYtNDFmMi1hY2JhLTM0NzhmZTY4NDBkNSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiLCJkZWZhdWx0LXJvbGVzLWluZXN0Il19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMSJ9.H6OovqRgoPszf_WlHlr6-XRlhiKKhUNb4vuHaTMux2VL94iBCFFLAXi4LqjfFfboXahshFgcFNz1w3QXXHFJ4IwdIYndl2_IbBp_njgB6e3m6nCpblyUuXBriAS__7l8ZADymIETmCD4XbDqYq53qbj0fQ3WBaXIBXMwNXTT3SvrMeoqEvkGTtVKE95UCYjPIqqXGXMYQ1FbzxBrlQ704W0ui-g3CpGYzqS_Lj59_2uXp9nxkeFscJF-720vpmMsh4Hv35k11jh_fV2UjfCLKI9oTIrNcmPJ1D3YSueJ_G1YRzzVgmkoTRxSultsqjml-UU1kmS04GobnMxmwurPuQ",
-							"type": "string"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						},
-						{
-							"key": "accessTokenUrl",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "challengeAlgorithm",
-							"value": "S256",
-							"type": "string"
-						},
-						{
-							"key": "grant_type",
-							"value": "authorization_code",
-							"type": "string"
-						},
-						{
-							"key": "client_authentication",
-							"value": "header",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -438,6 +341,26 @@
 						"v1",
 						"user",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Swagger API doc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/v2/api-docs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"v2",
+						"api-docs"
 					]
 				}
 			},

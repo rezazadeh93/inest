@@ -1,0 +1,447 @@
+{
+	"info": {
+		"_postman_id": "4e04d9f4-c22f-4942-88f7-de1e4fc3af01",
+		"name": "Inest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Actuator",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTSVFuZ2lrTGRqZXlDNGFHTVpqWUthZVJKSHp5cmxreU9HY0JONTEza1F3In0.eyJleHAiOjE2MzAwMDQ5NjksImlhdCI6MTYzMDAwNDY2OSwianRpIjoiMzc0YTkzMTItN2MwOC00MTczLTliZDItNDJjNjgwM2EwNDJiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmNlYTA4NzUtMDkwYy00ZGVkLTk4NWMtNWU4YmZhOWE0NWMwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibG9naW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjY1MmRmM2EzLTJjMWYtNDFmMi1hY2JhLTM0NzhmZTY4NDBkNSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiLCJkZWZhdWx0LXJvbGVzLWluZXN0Il19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMSJ9.H6OovqRgoPszf_WlHlr6-XRlhiKKhUNb4vuHaTMux2VL94iBCFFLAXi4LqjfFfboXahshFgcFNz1w3QXXHFJ4IwdIYndl2_IbBp_njgB6e3m6nCpblyUuXBriAS__7l8ZADymIETmCD4XbDqYq53qbj0fQ3WBaXIBXMwNXTT3SvrMeoqEvkGTtVKE95UCYjPIqqXGXMYQ1FbzxBrlQ704W0ui-g3CpGYzqS_Lj59_2uXp9nxkeFscJF-720vpmMsh4Hv35k11jh_fV2UjfCLKI9oTIrNcmPJ1D3YSueJ_G1YRzzVgmkoTRxSultsqjml-UU1kmS04GobnMxmwurPuQ",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "S256",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/actuator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get access token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "login-app",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2001/auth/realms/inestKeycloak/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2001",
+					"path": [
+						"auth",
+						"realms",
+						"inestKeycloak",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get access token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "login-app",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "user1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2001/auth/realms/inestKeycloak/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2001",
+							"path": [
+								"auth",
+								"realms",
+								"inestKeycloak",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-store"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "KEYCLOAK_LOCALE=; Version=1; Comment=Expiring cookie; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0; Path=/auth/realms/inestKeycloak/; HttpOnly"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Max-Age=0; Path=/auth/realms/inestKeycloak/; HttpOnly"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 26 Aug 2021 18:43:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2141"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTSVFuZ2lrTGRqZXlDNGFHTVpqWUthZVJKSHp5cmxreU9HY0JONTEza1F3In0.eyJleHAiOjE2MzAwMDM2OTksImlhdCI6MTYzMDAwMzM5OSwianRpIjoiZGEwMzQzNmYtZWNhYi00YzFjLTg3OGMtYzgzM2RiYjFmOTUzIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmNlYTA4NzUtMDkwYy00ZGVkLTk4NWMtNWU4YmZhOWE0NWMwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibG9naW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjY1MmRmM2EzLTJjMWYtNDFmMi1hY2JhLTM0NzhmZTY4NDBkNSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiLCJkZWZhdWx0LXJvbGVzLWluZXN0Il19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMSJ9.B9v4XVVdWWbtjkz8ErXChWlqBTqegkgmYiBIJEd0no0IG-U_jnIlRBYf--2fZZ9eJd8U8aUn1oniQPBSeYNROqQwkrQ24UO0_1jx5xaSHdXu5euCF5kgqL3pqU06FsuRvVUbaugLD5h6Deo4hcS6WixoGcywoWjkr1Mg-IjkY-vBM3PYnGMdPRyhiARsC4Kpm4RNWROqo56v_WBdnbO8NU-nmNtYHAXgkPhCt2X_kT7_3VAGUJ33DhTINjnP0JyJFodu-I17q_E7Moz1bgT38fsQn50Ub0jOQPFZR9edxoheZL3FSCY38PWasBfxMD_E2JpU93tF7OTLHBltABdKqA\",\n    \"expires_in\": 300,\n    \"refresh_expires_in\": 1800,\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzNWNiMDRmYi1hZDk2LTQzOGUtYTU0NC1kZTc5OTgzOWIyNDMifQ.eyJleHAiOjE2MzAwMDUxOTksImlhdCI6MTYzMDAwMzM5OSwianRpIjoiNGM2OTMyNTItYzI3OS00ZThkLWIwY2MtN2ZmZjIxMzk3YzRmIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIwMDEvYXV0aC9yZWFsbXMvaW5lc3RLZXljbG9hayIsInN1YiI6IjJjZWEwODc1LTA5MGMtNGRlZC05ODVjLTVlOGJmYTlhNDVjMCIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJsb2dpbi1hcHAiLCJzZXNzaW9uX3N0YXRlIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1Iiwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1In0.q25TeIazx3yhhizWPVoM2cQ8lsz-N3xI2C7UTPe7wYY\",\n    \"token_type\": \"Bearer\",\n    \"not-before-policy\": 0,\n    \"session_state\": \"652df3a3-2c1f-41f2-acba-3478fe6840d5\",\n    \"scope\": \"profile email\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "login-app",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzNWNiMDRmYi1hZDk2LTQzOGUtYTU0NC1kZTc5OTgzOWIyNDMifQ.eyJleHAiOjE2MzAwMDUxOTksImlhdCI6MTYzMDAwMzM5OSwianRpIjoiNGM2OTMyNTItYzI3OS00ZThkLWIwY2MtN2ZmZjIxMzk3YzRmIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIwMDEvYXV0aC9yZWFsbXMvaW5lc3RLZXljbG9hayIsInN1YiI6IjJjZWEwODc1LTA5MGMtNGRlZC05ODVjLTVlOGJmYTlhNDVjMCIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJsb2dpbi1hcHAiLCJzZXNzaW9uX3N0YXRlIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1Iiwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1In0.q25TeIazx3yhhizWPVoM2cQ8lsz-N3xI2C7UTPe7wYY",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2001/auth/realms/inestKeycloak/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2001",
+					"path": [
+						"auth",
+						"realms",
+						"inestKeycloak",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All UserTEST",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTSVFuZ2lrTGRqZXlDNGFHTVpqWUthZVJKSHp5cmxreU9HY0JONTEza1F3In0.eyJleHAiOjE2MzAwMDQ5NjksImlhdCI6MTYzMDAwNDY2OSwianRpIjoiMzc0YTkzMTItN2MwOC00MTczLTliZDItNDJjNjgwM2EwNDJiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmNlYTA4NzUtMDkwYy00ZGVkLTk4NWMtNWU4YmZhOWE0NWMwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibG9naW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjY1MmRmM2EzLTJjMWYtNDFmMi1hY2JhLTM0NzhmZTY4NDBkNSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiLCJkZWZhdWx0LXJvbGVzLWluZXN0Il19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMSJ9.H6OovqRgoPszf_WlHlr6-XRlhiKKhUNb4vuHaTMux2VL94iBCFFLAXi4LqjfFfboXahshFgcFNz1w3QXXHFJ4IwdIYndl2_IbBp_njgB6e3m6nCpblyUuXBriAS__7l8ZADymIETmCD4XbDqYq53qbj0fQ3WBaXIBXMwNXTT3SvrMeoqEvkGTtVKE95UCYjPIqqXGXMYQ1FbzxBrlQ704W0ui-g3CpGYzqS_Lj59_2uXp9nxkeFscJF-720vpmMsh4Hv35k11jh_fV2UjfCLKI9oTIrNcmPJ1D3YSueJ_G1YRzzVgmkoTRxSultsqjml-UU1kmS04GobnMxmwurPuQ",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "S256",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2000/api/v1/user/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Create UserTEST",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJTSVFuZ2lrTGRqZXlDNGFHTVpqWUthZVJKSHp5cmxreU9HY0JONTEza1F3In0.eyJleHAiOjE2MzAwMDQ5NjksImlhdCI6MTYzMDAwNDY2OSwianRpIjoiMzc0YTkzMTItN2MwOC00MTczLTliZDItNDJjNjgwM2EwNDJiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMDAxL2F1dGgvcmVhbG1zL2luZXN0S2V5Y2xvYWsiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmNlYTA4NzUtMDkwYy00ZGVkLTk4NWMtNWU4YmZhOWE0NWMwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibG9naW4tYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjY1MmRmM2EzLTJjMWYtNDFmMi1hY2JhLTM0NzhmZTY4NDBkNSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiLCJkZWZhdWx0LXJvbGVzLWluZXN0Il19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiNjUyZGYzYTMtMmMxZi00MWYyLWFjYmEtMzQ3OGZlNjg0MGQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyMSJ9.H6OovqRgoPszf_WlHlr6-XRlhiKKhUNb4vuHaTMux2VL94iBCFFLAXi4LqjfFfboXahshFgcFNz1w3QXXHFJ4IwdIYndl2_IbBp_njgB6e3m6nCpblyUuXBriAS__7l8ZADymIETmCD4XbDqYq53qbj0fQ3WBaXIBXMwNXTT3SvrMeoqEvkGTtVKE95UCYjPIqqXGXMYQ1FbzxBrlQ704W0ui-g3CpGYzqS_Lj59_2uXp9nxkeFscJF-720vpmMsh4Hv35k11jh_fV2UjfCLKI9oTIrNcmPJ1D3YSueJ_G1YRzzVgmkoTRxSultsqjml-UU1kmS04GobnMxmwurPuQ",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "S256",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 324,\n    \"name\": \"sad\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2000/api/v1/user/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

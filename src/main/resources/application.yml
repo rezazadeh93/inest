@@ -1,0 +1,20 @@
+server:
+  port: 2000
+  servlet:
+    context-path: /
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/inest"
+    username: inest
+    password: iZN$$&D!@4&#eg4a
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:2001/auth/realms/inestKeycloak
+          jwk-set-uri: http://localhost:2001/auth/realms/inestKeycloak/protocol/openid-connect/certs

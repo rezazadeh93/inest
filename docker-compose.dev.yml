@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+#  webserver:
+#    build:
+#      context: .
+#      target: development
+#    image: inest-dev-image:latest
+#    ports:
+#      - 2002:2002
+#      - 2000:2000
+#    volumes:
+#      - ./:/app
+  postgresql:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD='DB!@#'
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    restart: unless-stopped
+  authserver:
+    image: quay.io/keycloak/keycloak:15.0.2
+    ports:
+      - 2001:8080
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    restart: always
+
+volumes:
+  database-data:

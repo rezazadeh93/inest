@@ -11,7 +11,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/inest"
     username: inest
-    password: iZN$$&D!@4&#eg4a
+    password: 'DB!@#'
   security:
     oauth2:
       resourceserver:

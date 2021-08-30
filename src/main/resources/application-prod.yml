@@ -1,0 +1,15 @@
+server:
+  port: 80
+  servlet:
+    context-path: /
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  datasource:
+    url: "jdbc:postgresql://postgresql:5432/inest"
+    username: inest
+    password: 'password'

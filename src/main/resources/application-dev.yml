@@ -6,10 +6,11 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
   datasource:
     url: "jdbc:postgresql://localhost:5432/inest"
     username: inest
     password: 'DB!@#'
+

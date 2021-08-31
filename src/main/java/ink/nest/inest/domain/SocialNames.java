@@ -15,6 +15,5 @@ public class SocialNames {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
     private String name;
 }

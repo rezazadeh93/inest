@@ -15,9 +15,7 @@ public class Social {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
     private String name;
-
     private String label;
     private String url;
 }

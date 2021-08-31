@@ -1,6 +1,8 @@
 package ink.nest.inest.domain;
 
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,11 +10,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"links"})
 @EqualsAndHashCode(exclude = {"links"}, callSuper = false)
+
+@Entity
+@Table(name = "account")
+@SQLDelete(sql = "UPDATE account SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,12 +38,14 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Link> links = new HashSet<>();
 
-    private LocalDate createAt;
-    private LocalDate updatedAt;
-
     @Lob
     private Set<OtherLink>  otherLink = new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
     private Permission permission = Permission.USER;
+
+    private boolean deleted = Boolean.FALSE;
+
+    private LocalDate createAt;
+    private LocalDate updatedAt;
 }

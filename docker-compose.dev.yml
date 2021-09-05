@@ -10,6 +10,13 @@ services:
 #      - 2000:2000
 #    volumes:
 #      - ./:/app
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 2001:8080
   postgresql:
     image: postgres:latest
     ports:
@@ -19,14 +26,15 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data
     restart: unless-stopped
-  authserver:
-    image: quay.io/keycloak/keycloak:15.0.2
-    ports:
-      - 2001:8080
-    environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
     restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 'DB!@#'
+    ports:
+      - 2003:80
 
 volumes:
   database-data:

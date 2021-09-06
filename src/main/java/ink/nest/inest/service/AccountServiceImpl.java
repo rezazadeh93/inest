@@ -3,11 +3,14 @@ package ink.nest.inest.service;
 import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.model.AccountDTO;
 import ink.nest.inest.domain.Account;
-import ink.nest.inest.exception.NotFoundException;
 import ink.nest.inest.repository.AccountRepository;
+import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.module.ResolutionException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
                 .stream()
                 .map(accountMapper::accountToAccountDTO)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Account Not Found, For ID value: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Not Found, For ID value: " + id));
     }
 
     @Override

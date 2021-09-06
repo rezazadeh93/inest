@@ -1,12 +1,16 @@
 package ink.nest.inest.service;
 
+import com.sun.jdi.InternalException;
 import ink.nest.inest.api.v1.model.TokenDTO;
-import ink.nest.inest.exception.BadGatewayException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -77,17 +81,17 @@ public class TokenServiceImpl implements TokenService {
                     HttpMethod.POST,
                     entity,
                     TokenDTO.class);
-
+            System.out.println(response.getStatusCode().value());
             if (response.getStatusCode().value() != HttpStatus.OK.value()) {
                 log.error("Unauthorised access to protected resource, status code: " + response.getStatusCode());
-                throw new BadGatewayException("Some thing went wrong, Please try again!");
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
             return response.getBody();
 
         } catch (Exception ex) {
             log.error("Unauthorised access to protected resource", ex);
-            throw new BadGatewayException("Some thing went wrong, Please try again!");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 }

@@ -1,6 +1,7 @@
 package ink.nest.inest.api.v1.mapper;
 
 import ink.nest.inest.api.v1.model.AccountDTO;
+import ink.nest.inest.api.v1.model.ReqRegisterDTO;
 import ink.nest.inest.domain.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,5 +13,5 @@ public interface AccountMapper {
 
     AccountDTO accountToAccountDTO(Account account);
 
-    Account accountDTOToAccount(AccountDTO accountDTO);
+    Account ReqRegisterDTOToAccount(ReqRegisterDTO accountDTO);
 }

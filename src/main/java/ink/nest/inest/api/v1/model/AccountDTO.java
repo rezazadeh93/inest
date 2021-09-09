@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -23,7 +25,7 @@ public class AccountDTO {
     private boolean isVerified;
 
     private Set<Link> links = new HashSet<>();
-    private Set<OtherLink>  otherLink = new HashSet<>();
+    private Set<OtherLink> otherLinks = new HashSet<>();
     
     private Permission permission;
     private LocalDate createAt;

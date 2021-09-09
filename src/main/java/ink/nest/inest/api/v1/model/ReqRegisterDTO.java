@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReqRegisterDTO {
+public class ReqRegisterDTO implements Serializable {
     @NotBlank(message = "{validation.required}")
     @Email(message = "{validation.email}")
     private String email;

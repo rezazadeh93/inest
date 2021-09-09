@@ -81,7 +81,7 @@ public class TokenServiceImpl implements TokenService {
                     HttpMethod.POST,
                     entity,
                     TokenDTO.class);
-            System.out.println(response.getStatusCode().value());
+
             if (response.getStatusCode().value() != HttpStatus.OK.value()) {
                 log.error("Unauthorised access to protected resource, status code: " + response.getStatusCode());
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

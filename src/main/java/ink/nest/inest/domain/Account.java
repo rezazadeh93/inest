@@ -1,18 +1,25 @@
 package ink.nest.inest.domain;
 
-import lombok.*;
+import ink.nest.inest.convertor.HashMapConverter;
+import ink.nest.inest.convertor.HashSetConverter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"links"})
 @EqualsAndHashCode(exclude = {"links"}, callSuper = false)
 
 @Entity
@@ -38,8 +45,8 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Link> links = new HashSet<>();
 
-    @Lob
-    private Set<OtherLink>  otherLink = new HashSet<>();
+    @Convert(converter = HashSetConverter.class)
+    private Set<OtherLink> otherLinks = new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
     private Permission permission = Permission.USER;

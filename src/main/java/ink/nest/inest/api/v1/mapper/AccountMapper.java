@@ -5,7 +5,10 @@ import ink.nest.inest.api.v1.model.ReqRegisterDTO;
 import ink.nest.inest.domain.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
@@ -13,5 +16,14 @@ public interface AccountMapper {
 
     AccountDTO accountToAccountDTO(Account account);
 
+    @Mapping(source = "password", target = "passwordEncrypted", qualifiedByName = "passwordEncoder")
     Account ReqRegisterDTOToAccount(ReqRegisterDTO accountDTO);
+
+
+    @Named("passwordEncoder")
+    public static String encryptPassword(String originPassword) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        return passwordEncoder.encode(originPassword);
+    }
 }

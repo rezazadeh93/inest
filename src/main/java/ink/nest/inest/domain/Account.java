@@ -1,6 +1,5 @@
 package ink.nest.inest.domain;
 
-import ink.nest.inest.convertor.HashMapConverter;
 import ink.nest.inest.convertor.HashSetConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -35,7 +32,7 @@ public class Account {
     private String lastname;
 
     private String email;
-    private String password;
+    private String passwordEncrypted;
 
     private int verifyCode;
     private LocalDate verifiedAt;

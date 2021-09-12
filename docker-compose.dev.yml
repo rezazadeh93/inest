@@ -10,21 +10,6 @@ services:
 #      - 2000:2000
 #    volumes:
 #      - ./:/app
-  keycloak:
-    image: jboss/keycloak
-    environment:
-      DB_VENDOR: postgres
-      DB_ADDR: postgresql
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_SCHEMA: public
-      DB_PASSWORD: keycloak!@#
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
-    depends_on:
-      - postgresql
-    ports:
-      - 2001:8080
   postgresql:
     image: postgres:latest
     ports:

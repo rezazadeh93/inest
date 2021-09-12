@@ -2,13 +2,13 @@ package ink.nest.inest.service;
 
 import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.model.AccountDTO;
-import ink.nest.inest.api.v1.model.ReqRegisterDTO;
+import ink.nest.inest.api.v1.request.RegisterRequest;
 import ink.nest.inest.domain.Account;
+import ink.nest.inest.exception.EmailExistsException;
 import ink.nest.inest.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.ValidationException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -17,11 +17,11 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountCrudServiceImpl implements AccountCrudService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
-    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper) {
+    public AccountCrudServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
     }
@@ -46,25 +46,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<AccountDTO> findByEmail(String email) {
-        return accountRepository.findAccountByEmail(email)
-                .stream()
-                .map(accountMapper::accountToAccountDTO)
-                .findFirst();
+    public Optional<Account> findByEmail(String email) {
+        return accountRepository.findAccountByEmail(email);
     }
 
     @Override
-    public AccountDTO saveAccountDTO(ReqRegisterDTO account) throws ValidationException {
+    public Optional<AccountDTO> saveAccountDTO(RegisterRequest account) {
         log.debug("logging service: @saveAccountDTO => email : " + account.getEmail());
 
-        if (findByEmail(account.getEmail()).isEmpty()) {
-            Account detachAccount = accountMapper.ReqRegisterDTOToAccount(account);
-            Account savedAccount = accountRepository.save(Objects.requireNonNull(detachAccount));
+        Account detachAccount = accountMapper.dtoReqRegisterToAccount(account);
+        Account savedAccount = accountRepository.save(Objects.requireNonNull(detachAccount));
 
-            return accountMapper.accountToAccountDTO(savedAccount);
-        } else {
-            throw new ValidationException(account.getEmail() + " already exist");
-        }
+        return Optional.ofNullable(accountMapper.accountToAccountDTO(savedAccount));
     }
 
     @Override
@@ -72,5 +65,20 @@ public class AccountServiceImpl implements AccountService {
         log.debug("logging service: @softDeleteByIdAccount => id : " + id);
 
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public AccountDTO registerNewUserAccount(RegisterRequest accountDTO) {
+
+        if (emailExist(accountDTO.getEmail())) {
+            throw new EmailExistsException("This email already exist: " + accountDTO.getEmail());
+        }
+
+        return saveAccountDTO(accountDTO)
+                .orElse(null);
+    }
+
+    private boolean emailExist(String email) {
+        return findByEmail(email).isPresent();
     }
 }

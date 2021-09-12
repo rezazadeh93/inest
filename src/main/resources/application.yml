@@ -6,16 +6,13 @@ server:
 spring:
   security:
     oauth2:
-      client:
-        client-id:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:2001/auth/realms/inestKeycloak
-          jwk-set-uri: http://localhost:2001/auth/realms/inestKeycloak/protocol/openid-connect/certs
+          issuer-uri: ${jwt.issuer}
+          jwk-set-uri: ${jwt.issuer}
+    filter:
+      order: 10
 
-keycloak:
-  url: http://localhost:2001/auth
-  realm: inestKeycloak
-  client-id: client-app
-  username: user1
-  password: admin
+jwt:
+  issuer: https://inest.ink/auth/token
+  secret: e_bW^+m#<ny~/xP-Wxw`h|YMj>*>GX

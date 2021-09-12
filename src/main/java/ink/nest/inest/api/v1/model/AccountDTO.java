@@ -17,6 +17,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDTO {
+    public AccountDTO(String email) {
+        this.email = email;
+    }
+
     private Long id = null;
 
     private String firstName;
@@ -26,7 +30,7 @@ public class AccountDTO {
 
     private Set<Link> links = new HashSet<>();
     private Set<OtherLink> otherLinks = new HashSet<>();
-    
+
     private Permission permission;
     private LocalDate createAt;
 }

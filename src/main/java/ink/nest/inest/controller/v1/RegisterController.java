@@ -2,9 +2,9 @@ package ink.nest.inest.controller.v1;
 
 import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.model.AccountDTO;
+import ink.nest.inest.api.v1.request.GenerateTokenRequest;
 import ink.nest.inest.api.v1.request.RegisterRequest;
 import ink.nest.inest.constant.InestApiConstant;
-import ink.nest.inest.domain.Account;
 import ink.nest.inest.security.JwtTokenUtil;
 import ink.nest.inest.service.AccountCrudService;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +21,9 @@ public class RegisterController {
     private final AccountMapper accountMapper;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public RegisterController(AccountCrudService accountService, AccountMapper accountMapper, JwtTokenUtil jwtTokenUtil) {
+    public RegisterController(AccountCrudService accountService,
+                              AccountMapper accountMapper,
+                              JwtTokenUtil jwtTokenUtil) {
         this.accountMapper = accountMapper;
         this.jwtTokenUtil = jwtTokenUtil;
         this.accountService = accountService;
@@ -31,12 +33,14 @@ public class RegisterController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AccountDTO> register(@Valid @RequestBody RegisterRequest account) {
         AccountDTO savedAccountDTO = accountService.registerNewUserAccount(account);
-        Account savedAccount = accountMapper.dtoAccountToAccount(savedAccountDTO);
+
+        GenerateTokenRequest tokenRequest = new GenerateTokenRequest();
+        tokenRequest.setUsername(savedAccountDTO.getEmail());
 
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
-                        jwtTokenUtil.generateAccessToken(savedAccount)
+                        jwtTokenUtil.generateAccessToken(tokenRequest)
                 )
                 .body(savedAccountDTO);
 

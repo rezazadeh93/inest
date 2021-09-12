@@ -1,15 +1,15 @@
 version: '3.8'
 services:
-#  webserver:
-#    build:
-#      context: .
-#      target: development
-#    image: inest-dev-image:latest
-#    ports:
-#      - 2002:2002
-#      - 2000:2000
-#    volumes:
-#      - ./:/app
+  webserver:
+    build:
+      context: .
+      target: development
+    image: inest-dev-image:latest
+    ports:
+      - 2002:2002
+      - 2000:2000
+    volumes:
+      - ./:/app
   postgresql:
     image: postgres:latest
     ports:

@@ -4,8 +4,8 @@ import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.model.AccountDTO;
 import ink.nest.inest.api.v1.model.TokenDTO;
 import ink.nest.inest.api.v1.request.AuthRequest;
+import ink.nest.inest.api.v1.request.GenerateTokenRequest;
 import ink.nest.inest.constant.InestApiConstant;
-import ink.nest.inest.domain.Account;
 import ink.nest.inest.security.JwtTokenUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,14 +41,23 @@ public class LoginController {
 
         Authentication authenticate = authenticationManager.authenticate(authToken);
 
-        Account user = (Account) authenticate.getPrincipal();
+        User UserAuthenticated = (User) authenticate.getPrincipal();
 
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
-                        jwtTokenUtil.generateAccessToken(user)
+                        jwtTokenUtil.generateAccessToken(
+                                new GenerateTokenRequest(
+                                        UserAuthenticated.getUsername(),
+                                        UserAuthenticated.getAuthorities()
+                                )
+                        )
                 )
-                .body(accountMapper.accountToAccountDTO(user));
+                .body(
+                        new AccountDTO(
+                                UserAuthenticated.getUsername()
+                        )
+                );
     }
 
     @GetMapping("user")

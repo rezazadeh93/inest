@@ -26,15 +26,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         try {
-            Optional<Account> optionalAccount = accountCrudService.findByEmail(email);
-
-            if (optionalAccount.isEmpty()) {
-                throw new UsernameNotFoundException(format("Email: %s, Not Found", email));
-            }
-
-            Account account = optionalAccount.get();
+            Account account = accountCrudService.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException(format("Email: %s, Not Found", email)));
 
             Collection<GrantedAuthority> authorities = Collections.singleton(
                     new SimpleGrantedAuthority(account.getPermission().name())
@@ -42,7 +37,7 @@ public class UserService implements UserDetailsService {
 
             return new User(
                     account.getEmail(),
-                    account.getPasswordEncrypted().toLowerCase(),
+                    account.getPasswordEncrypted(),
                     account.isVerified(),
                     true,
                     true,

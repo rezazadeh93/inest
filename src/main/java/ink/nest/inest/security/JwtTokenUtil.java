@@ -1,5 +1,6 @@
 package ink.nest.inest.security;
 
+import ink.nest.inest.api.v1.request.GenerateTokenRequest;
 import ink.nest.inest.constant.InestApiConstant;
 import ink.nest.inest.domain.Account;
 import io.jsonwebtoken.*;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -23,9 +26,9 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private final String jwtIssuer = "jwt_issuer_default";
 
-    public String generateAccessToken(Account user) {
+    public String generateAccessToken(GenerateTokenRequest request) {
         return Jwts.builder()
-                .setSubject(format("%s,%s", user.getId(), user.getEmail()))
+                .setSubject(format("%s,%s", request.getUsername(), request.getAuthorities()))
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + InestApiConstant.JWT_TOKEN_EXPIRE_TIME))
@@ -33,7 +36,7 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String getUserId(String token) {
+    public String getUsername(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
@@ -42,7 +45,7 @@ public class JwtTokenUtil {
         return claims.getSubject().split(",")[0];
     }
 
-    public String getUsername(String token) {
+    public String getAuthorities(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)

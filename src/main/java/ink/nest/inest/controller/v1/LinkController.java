@@ -85,6 +85,7 @@ public class LinkController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("link")
     public void deleteLink(@RequestParam("id") Long id) {
         linkCrudService.softDeleteByIdAccount(id);
     }

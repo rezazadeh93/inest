@@ -2,7 +2,6 @@ package ink.nest.inest.domain;
 
 import ink.nest.inest.convertor.HashSetConverter;
 import lombok.*;
-import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 

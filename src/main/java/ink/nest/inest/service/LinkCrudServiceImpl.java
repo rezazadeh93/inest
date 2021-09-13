@@ -2,12 +2,16 @@ package ink.nest.inest.service;
 
 import ink.nest.inest.api.v1.mapper.LinkMapper;
 import ink.nest.inest.api.v1.model.LinkDTO;
+import ink.nest.inest.api.v1.request.LinkRequest;
 import ink.nest.inest.domain.Account;
 import ink.nest.inest.domain.Link;
+import ink.nest.inest.exception.ExceptionMessages;
 import ink.nest.inest.repository.LinkRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -32,16 +36,22 @@ public class LinkCrudServiceImpl implements LinkCrudService {
 
     @Override
     public Set<LinkDTO> getAll(String username) {
-        Account accountDTO = accountCrudService.findByEmail(username).orElse(null);
 
-        if (Objects.isNull(accountDTO)) {
+        if (Objects.isNull(username)) {
             return StreamSupport
                     .stream(linkRepository.findAll().spliterator(), false)
                     .map(linkMapper::linkToLinkDTO)
                     .collect(Collectors.toSet());
         }
 
-        return accountDTO
+        Account account = accountCrudService.findByEmail(username)
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                ExceptionMessages.getNotFoundException(username)
+                        )
+                );
+
+        return account
                 .getLinks()
                 .stream()
                 .map(linkMapper::linkToLinkDTO)
@@ -56,16 +66,36 @@ public class LinkCrudServiceImpl implements LinkCrudService {
     }
 
     @Override
-    public Optional<LinkDTO> saveLinkDTO(@NonNull String name, Account account) {
-        log.debug("logging service: @saveLinkDTO => name : " + name);
+    public Optional<LinkDTO> saveLinkDTO(@NonNull LinkRequest linkRequest, Account account) {
+        log.debug("logging service: @saveLinkDTO => name : " + linkRequest.getName());
 
-        Link attachLink = new Link();
-        attachLink.setName(name);
-        attachLink.setAccount(account);
+        Link savedLink = null;
+        // if POST request was send
+        if (Objects.isNull(linkRequest.getId())) {
+            Link attachLink = new Link();
+            attachLink.setName(linkRequest.getName());
+            attachLink.setAccount(account);
 
-         LinkDTO savedLink = linkMapper.linkToLinkDTO(linkRepository.save(attachLink));
+            savedLink = linkRepository.save(attachLink);
 
-        return Optional.ofNullable(savedLink);
+            account.getLinks().add(savedLink);
+            accountCrudService.saveAccount(account);
+        } else {
+            // if PUT request was send
+            Link foundLink = linkRepository
+                    .findById(linkRequest.getId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                                    HttpStatus.BAD_REQUEST,
+                                    ExceptionMessages.getNotFoundException(
+                                            linkRequest.getId().toString()
+                                    )
+                            )
+                    );
+
+            foundLink.setName(linkRequest.getName());
+            savedLink = linkRepository.save(foundLink);
+        }
+        return Optional.ofNullable(linkMapper.linkToLinkDTO(savedLink));
     }
 
     @Override

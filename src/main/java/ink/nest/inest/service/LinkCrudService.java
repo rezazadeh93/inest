@@ -1,6 +1,7 @@
 package ink.nest.inest.service;
 
 import ink.nest.inest.api.v1.model.LinkDTO;
+import ink.nest.inest.api.v1.request.LinkRequest;
 import ink.nest.inest.domain.Account;
 import io.micrometer.core.lang.Nullable;
 import org.springframework.lang.NonNull;
@@ -13,7 +14,7 @@ public interface LinkCrudService {
 
     Optional<LinkDTO> findByID(@NonNull Long id);
 
-    Optional<LinkDTO> saveLinkDTO(@NonNull String name, Account account);
+    Optional<LinkDTO> saveLinkDTO(@NonNull LinkRequest request, Account account);
 
     void softDeleteByIdAccount(@NonNull Long id);
 }

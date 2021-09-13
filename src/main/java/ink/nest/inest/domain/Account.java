@@ -1,10 +1,8 @@
 package ink.nest.inest.domain;
 
 import ink.nest.inest.convertor.HashSetConverter;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -18,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"links"}, callSuper = false)
+@ToString(exclude = {"links"})
 
 @Entity
 @Table(name = "account")
@@ -31,6 +30,7 @@ public class Account {
     private String firstName;
     private String lastname;
 
+    @Column(unique = true)
     private String email;
     private String passwordEncrypted;
 

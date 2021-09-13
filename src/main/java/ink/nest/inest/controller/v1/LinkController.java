@@ -1,8 +1,10 @@
 package ink.nest.inest.controller.v1;
 
 import ink.nest.inest.api.v1.model.LinkDTO;
+import ink.nest.inest.api.v1.request.LinkRequest;
 import ink.nest.inest.constant.InestApiConstant;
 import ink.nest.inest.domain.Account;
+import ink.nest.inest.exception.ExceptionMessages;
 import ink.nest.inest.security.JwtTokenUtil;
 import ink.nest.inest.service.AccountCrudService;
 import ink.nest.inest.service.LinkCrudService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,29 +47,44 @@ public class LinkController {
     public LinkDTO getLink(@RequestParam("id") Long id) {
         return linkCrudService.findByID(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found Link+ " + id)
+                        () -> new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                ExceptionMessages.getNotFoundException(id.toString())
+                        )
                 );
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("link")
-    public LinkDTO createLink(@RequestParam("name") String name, WebRequest request) {
+    public LinkDTO createLink(@Valid @RequestBody LinkRequest linkRequest, WebRequest request) {
         //get token from header
         String token = Objects.requireNonNull(request.getHeader(InestApiConstant.HEADER_AUTHORIZATION))
                 .split(" ")[1];
 
-        Account activeAccount = accountCrudService.findByEmail(jwtTokenUtil.getUsername(token))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found Account"));
+        String username = jwtTokenUtil.getUsername(token);
 
-        return linkCrudService.saveLinkDTO(name, activeAccount)
+        Account currentAccount = accountCrudService.findByEmail(username)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        ExceptionMessages.getNotFoundException(username)
+                ));
+
+        return linkCrudService.saveLinkDTO(linkRequest, currentAccount)
                 .orElseThrow(
                         () -> new ResponseStatusException(
                                 HttpStatus.INTERNAL_SERVER_ERROR,
-                                "Something went wrong during saving account"
+                                ExceptionMessages.getInternalSeverException(username)
                         )
                 );
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("link")
+    public LinkDTO updateLink(@Valid @RequestBody LinkRequest linkRequest, WebRequest request) {
+        return createLink(linkRequest, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLink(@RequestParam("id") Long id) {
         linkCrudService.softDeleteByIdAccount(id);
     }

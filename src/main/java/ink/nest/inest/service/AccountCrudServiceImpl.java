@@ -4,10 +4,14 @@ import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.model.AccountDTO;
 import ink.nest.inest.api.v1.request.RegisterRequest;
 import ink.nest.inest.domain.Account;
+import ink.nest.inest.domain.Link;
 import ink.nest.inest.exception.EmailExistsException;
+import ink.nest.inest.exception.ExceptionMessages;
 import ink.nest.inest.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -51,10 +55,27 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     }
 
     @Override
-    public Optional<AccountDTO> saveAccountDTO(Account account) {
+    public Optional<AccountDTO> saveAccount(Account account) {
         log.debug("logging service: @saveAccountDTO => email : " + account.getEmail());
 
-        Account savedAccount = accountRepository.save(Objects.requireNonNull(account));
+        Account savedAccount = null;
+        // if request was send POST
+        if (Objects.isNull(account.getId())) {
+            savedAccount = accountRepository.save(Objects.requireNonNull(account));
+
+        } else {
+            // if request was send PUT
+            accountRepository.findById(account.getId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                                    HttpStatus.BAD_REQUEST,
+                                    ExceptionMessages.getNotFoundException(
+                                            account.getId().toString()
+                                    )
+                            )
+                    );
+
+            savedAccount = accountRepository.save(account);
+        }
 
         return Optional.ofNullable(accountMapper.accountToAccountDTO(savedAccount));
     }
@@ -75,7 +96,7 @@ public class AccountCrudServiceImpl implements AccountCrudService {
 
         Account detachAccount = accountMapper.dtoReqRegisterToAccount(request);
 
-        return saveAccountDTO(detachAccount)
+        return saveAccount(detachAccount)
                 .orElse(null);
     }
 

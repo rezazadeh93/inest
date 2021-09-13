@@ -1,12 +1,12 @@
 package ink.nest.inest.controller.v1;
 
-import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.model.AccountDTO;
-import ink.nest.inest.api.v1.model.TokenDTO;
 import ink.nest.inest.api.v1.request.AuthRequest;
 import ink.nest.inest.api.v1.request.GenerateTokenRequest;
+import ink.nest.inest.api.v1.request.RegisterRequest;
 import ink.nest.inest.constant.InestApiConstant;
 import ink.nest.inest.security.JwtTokenUtil;
+import ink.nest.inest.service.AccountCrudService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +20,34 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(InestApiConstant.API_AUTH_PATH)
-public class LoginController {
+public class AuthenticateController {
+    private final AccountCrudService accountService;
     private final AuthenticationManager authenticationManager;
-    private final AccountMapper accountMapper;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public LoginController(AuthenticationManager authenticationManager, AccountMapper accountMapper, JwtTokenUtil jwtTokenUtil) {
+    public AuthenticateController(AccountCrudService accountService,
+                                  AuthenticationManager authenticationManager,
+                                  JwtTokenUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
-        this.accountMapper = accountMapper;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.accountService = accountService;
+    }
+
+    @PostMapping("register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<AccountDTO> register(@Valid @RequestBody RegisterRequest account) {
+        AccountDTO savedAccountDTO = accountService.registerNewUserAccount(account);
+
+        GenerateTokenRequest tokenRequest = new GenerateTokenRequest();
+        tokenRequest.setUsername(savedAccountDTO.getEmail());
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.AUTHORIZATION,
+                        jwtTokenUtil.generateAccessToken(tokenRequest)
+                )
+                .body(savedAccountDTO);
+
     }
 
     @PostMapping("login")
@@ -58,22 +77,5 @@ public class LoginController {
                                 UserAuthenticated.getUsername()
                         )
                 );
-    }
-
-    @GetMapping("user")
-    public String findOne(@RequestParam("id") Long id) {
-        return "Received " + id + " Users :D";
-    }
-
-    @GetMapping("users")
-    @ResponseStatus(HttpStatus.OK)
-    public String allUsers() {
-        return "Received All Users :)))";
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("user")
-    public TokenDTO create(@RequestBody AccountDTO accountDTO) {
-        return null;
     }
 }

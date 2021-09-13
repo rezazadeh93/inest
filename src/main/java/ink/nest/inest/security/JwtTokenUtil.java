@@ -21,12 +21,14 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class JwtTokenUtil {
     @Value("${jwt.issuer}")
-    private final String jwtSecret = "jwt_secret_default";
+    private String jwtIssuer;
 
     @Value("${jwt.secret}")
-    private final String jwtIssuer = "jwt_issuer_default";
+    private String jwtSecret;
 
     public String generateAccessToken(GenerateTokenRequest request) {
+        System.out.println(jwtSecret);
+        System.out.println(jwtIssuer);
         return Jwts.builder()
                 .setSubject(format("%s,%s", request.getUsername(), request.getAuthorities()))
                 .setIssuer(jwtIssuer)

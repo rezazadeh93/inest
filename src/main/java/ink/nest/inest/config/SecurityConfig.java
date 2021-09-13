@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http = http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // OAuth2 Resource Server
-        http.oauth2ResourceServer().jwt();
+        // http.oauth2ResourceServer().jwt();
     }
 
     // Used by spring security if CORS is enabled.

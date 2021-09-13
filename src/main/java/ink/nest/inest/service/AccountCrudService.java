@@ -14,7 +14,7 @@ public interface AccountCrudService {
 
     Optional<Account> findByEmail(String email);
 
-    Optional<AccountDTO> saveAccountDTO(RegisterRequest accountDTO);
+    Optional<AccountDTO> saveAccountDTO(Account account);
 
     AccountDTO registerNewUserAccount(RegisterRequest accountDTO);
 

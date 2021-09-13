@@ -51,11 +51,10 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     }
 
     @Override
-    public Optional<AccountDTO> saveAccountDTO(RegisterRequest account) {
+    public Optional<AccountDTO> saveAccountDTO(Account account) {
         log.debug("logging service: @saveAccountDTO => email : " + account.getEmail());
 
-        Account detachAccount = accountMapper.dtoReqRegisterToAccount(account);
-        Account savedAccount = accountRepository.save(Objects.requireNonNull(detachAccount));
+        Account savedAccount = accountRepository.save(Objects.requireNonNull(account));
 
         return Optional.ofNullable(accountMapper.accountToAccountDTO(savedAccount));
     }
@@ -68,13 +67,15 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     }
 
     @Override
-    public AccountDTO registerNewUserAccount(RegisterRequest accountDTO) {
+    public AccountDTO registerNewUserAccount(RegisterRequest request) {
 
-        if (emailExist(accountDTO.getEmail())) {
-            throw new EmailExistsException("This email already exist: " + accountDTO.getEmail());
+        if (emailExist(request.getEmail())) {
+            throw new EmailExistsException("This email already exist: " + request.getEmail());
         }
 
-        return saveAccountDTO(accountDTO)
+        Account detachAccount = accountMapper.dtoReqRegisterToAccount(request);
+
+        return saveAccountDTO(detachAccount)
                 .orElse(null);
     }
 

@@ -6,17 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Social {
+@Entity
+public class SocialName {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long LinkID;
 
     private String name;
-    private String label;
-    private String url;
 }

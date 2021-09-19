@@ -10,6 +10,7 @@ services:
       - 2000:2000
     volumes:
       - ./:/app
+    restart: unless-stopped
   postgresql:
     image: postgres:latest
     ports:
@@ -18,7 +19,7 @@ services:
       - POSTGRES_PASSWORD='DB!@#'
     volumes:
       - database-data:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: always
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -27,6 +28,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 'DB!@#'
     ports:
       - 2003:80
+    restart: unless-stopped
 
 volumes:
   database-data:

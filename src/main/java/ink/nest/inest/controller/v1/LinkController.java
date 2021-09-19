@@ -3,10 +3,8 @@ package ink.nest.inest.controller.v1;
 import ink.nest.inest.api.v1.model.LinkDTO;
 import ink.nest.inest.api.v1.request.LinkRequest;
 import ink.nest.inest.constant.InestApiConstant;
-import ink.nest.inest.domain.Account;
 import ink.nest.inest.exception.ExceptionMessages;
 import ink.nest.inest.security.JwtTokenUtil;
-import ink.nest.inest.service.AccountCrudService;
 import ink.nest.inest.service.LinkCrudService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +19,11 @@ import java.util.Set;
 @RequestMapping(InestApiConstant.API_V1_PATH)
 public class LinkController {
     private final LinkCrudService linkCrudService;
-    private final AccountCrudService accountCrudService;
     private final JwtTokenUtil jwtTokenUtil;
 
     public LinkController(LinkCrudService linkCrudService,
-                          AccountCrudService accountCrudService,
                           JwtTokenUtil jwtTokenUtil) {
         this.linkCrudService = linkCrudService;
-        this.accountCrudService = accountCrudService;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
@@ -63,13 +58,11 @@ public class LinkController {
 
         String username = jwtTokenUtil.getUsername(token);
 
-        Account currentAccount = accountCrudService.findByEmail(username)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        ExceptionMessages.getNotFoundException(username)
-                ));
+        LinkDTO linkDTO = new LinkDTO(linkRequest.getName());
+        if (!Objects.isNull(linkRequest.getId()))
+            linkDTO.setId(linkRequest.getId());
 
-        return linkCrudService.saveLinkDTO(linkRequest, currentAccount)
+        return linkCrudService.saveLinkDtoByAccount(linkDTO, username)
                 .orElseThrow(
                         () -> new ResponseStatusException(
                                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -87,6 +80,6 @@ public class LinkController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("link")
     public void deleteLink(@RequestParam("id") Long id) {
-        linkCrudService.softDeleteByIdAccount(id);
+        linkCrudService.softDeleteByID(id);
     }
 }

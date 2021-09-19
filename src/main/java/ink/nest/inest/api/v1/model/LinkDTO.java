@@ -1,7 +1,5 @@
 package ink.nest.inest.api.v1.model;
 
-import ink.nest.inest.domain.Social;
-import ink.nest.inest.domain.Templates;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +11,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LinkDTO {
+    public LinkDTO(String name) {
+        this.name = name;
+    }
+
     private Long id;
+    private Long accountID;
     private String name;
-    private Set<Social> socials = new HashSet<>();
-    private Templates template;
+    private Set<SocialDTO> socials = new HashSet<>();
+    private TemplateDTO template;
 }

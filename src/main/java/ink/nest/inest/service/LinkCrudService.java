@@ -1,10 +1,8 @@
 package ink.nest.inest.service;
 
 import ink.nest.inest.api.v1.model.LinkDTO;
-import ink.nest.inest.api.v1.request.LinkRequest;
-import ink.nest.inest.domain.Account;
-import io.micrometer.core.lang.Nullable;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 import java.util.Set;
@@ -14,7 +12,9 @@ public interface LinkCrudService {
 
     Optional<LinkDTO> findByID(@NonNull Long id);
 
-    Optional<LinkDTO> saveLinkDTO(@NonNull LinkRequest request, Account account);
+    Optional<LinkDTO> saveLinkDtoByAccount(@NonNull LinkDTO linkRequest, @NonNull String accountEmail);
 
-    void softDeleteByIdAccount(@NonNull Long id);
+    Optional<LinkDTO> saveLinkDtoByAccount(@NonNull LinkDTO linkRequest, @NonNull Long accountID);
+
+    void softDeleteByID(@NonNull Long id);
 }

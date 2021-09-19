@@ -81,7 +81,7 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     }
 
     @Override
-    public void softDeleteByIdAccount(Long id) {
+    public void softDeleteByAccountID(Long id) {
         log.debug("logging service: @softDeleteByIdAccount => id : " + id);
 
         accountRepository.deleteById(id);

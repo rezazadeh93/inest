@@ -18,5 +18,5 @@ public interface AccountCrudService {
 
     AccountDTO registerNewUserAccount(RegisterRequest accountDTO);
 
-    void softDeleteByIdAccount(Long id);
+    void softDeleteByAccountID(Long id);
 }

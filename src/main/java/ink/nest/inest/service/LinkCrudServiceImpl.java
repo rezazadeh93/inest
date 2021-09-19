@@ -1,8 +1,8 @@
 package ink.nest.inest.service;
 
+import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.mapper.LinkMapper;
 import ink.nest.inest.api.v1.model.LinkDTO;
-import ink.nest.inest.api.v1.request.LinkRequest;
 import ink.nest.inest.domain.Account;
 import ink.nest.inest.domain.Link;
 import ink.nest.inest.exception.ExceptionMessages;
@@ -22,13 +22,15 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 public class LinkCrudServiceImpl implements LinkCrudService {
+    private final AccountMapper accountMapper;
     private final LinkMapper linkMapper;
     private final LinkRepository linkRepository;
     private final AccountCrudService accountCrudService;
 
-    public LinkCrudServiceImpl(LinkMapper linkMapper,
+    public LinkCrudServiceImpl(AccountMapper accountMapper, LinkMapper linkMapper,
                                LinkRepository linkRepository,
                                AccountCrudService accountCrudService) {
+        this.accountMapper = accountMapper;
         this.linkMapper = linkMapper;
         this.linkRepository = linkRepository;
         this.accountCrudService = accountCrudService;
@@ -66,10 +68,37 @@ public class LinkCrudServiceImpl implements LinkCrudService {
     }
 
     @Override
-    public Optional<LinkDTO> saveLinkDTO(@NonNull LinkRequest linkRequest, Account account) {
-        log.debug("logging service: @saveLinkDTO => name : " + linkRequest.getName());
+    public Optional<LinkDTO> saveLinkDtoByAccount(@NonNull LinkDTO linkRequest, @NonNull String accountEmail) {
+        log.debug("logging service: @saveLinkDtoByAccount => name : " + linkRequest.getName());
 
-        Link savedLink = null;
+        Account accountFound = accountCrudService.findByEmail(accountEmail)
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                ExceptionMessages.getNotFoundException(accountEmail)
+                        )
+                );
+
+        return saveLinkDTO(linkRequest, accountFound);
+    }
+
+    @Override
+    public Optional<LinkDTO> saveLinkDtoByAccount(@NonNull LinkDTO linkRequest, @NonNull Long accountID) {
+        log.debug("logging service: @saveLinkDtoByAccount => name : " + linkRequest.getName());
+
+        Account accountFound = accountCrudService.findByID(accountID)
+                .map(accountMapper::dtoAccountToAccount)
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                ExceptionMessages.getNotFoundException(accountID.toString())
+                        )
+                );
+
+        return saveLinkDTO(linkRequest, accountFound);
+    }
+
+    private Optional<LinkDTO> saveLinkDTO(@NonNull LinkDTO linkRequest, @NonNull Account account) {
+
+        Link savedLink;
         // if POST request was send
         if (Objects.isNull(linkRequest.getId())) {
             Link attachLink = new Link();
@@ -92,14 +121,17 @@ public class LinkCrudServiceImpl implements LinkCrudService {
                             )
                     );
 
-            foundLink.setName(linkRequest.getName());
+            Link detachLink = linkMapper.dtoLinkToLink(linkRequest);
+            foundLink.setName(detachLink.getName());
+            foundLink.setSocials(detachLink.getSocials());
+            foundLink.setTemplate(detachLink.getTemplate());
             savedLink = linkRepository.save(foundLink);
         }
         return Optional.ofNullable(linkMapper.linkToLinkDTO(savedLink));
     }
 
     @Override
-    public void softDeleteByIdAccount(@NonNull Long id) {
+    public void softDeleteByID(@NonNull Long id) {
         log.debug("logging service: @softDeleteByIdAccount => id : " + id);
 
         linkRepository.deleteById(id);

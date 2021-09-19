@@ -28,7 +28,7 @@ public class AccountDTO {
     private String email;
     private boolean isVerified;
 
-    private Set<Link> links = new HashSet<>();
+    private Set<LinkDTO> links = new HashSet<>();
     private Set<OtherLink> otherLinks = new HashSet<>();
 
     private Permission permission;

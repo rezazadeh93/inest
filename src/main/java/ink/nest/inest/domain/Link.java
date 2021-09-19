@@ -32,7 +32,7 @@ public class Link {
     private Account account;
 
     @OneToOne(cascade = CascadeType.DETACH)
-    private Templates template;
+    private Template template;
 
     private boolean deleted = Boolean.FALSE;
 

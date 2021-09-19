@@ -11,7 +11,7 @@ public interface SocialCrudService {
 
     Optional<SocialDTO> findByIdAndLinkID(@NonNull Long id, @NonNull Long linkID);
 
-    Optional<SocialDTO> saveBySocialDTO(@NonNull SocialDTO socialDTO, @NonNull Long linkID);
+    Optional<SocialDTO> saveBySocialDTO(@NonNull SocialDTO socialDTO);
 
     void softDeleteByID(@NonNull Long id, @NonNull Long linkID);
 }

@@ -12,8 +12,12 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class SocialDTO {
     private Long id;
-    private Long LinkID;
 
+    // @Todo This field must be Validate too
+    // @NotBlank(message = "{validation.required}")
+    private Long linkID;
+
+    // @Todo validate if name is in socialName tables or not
     @NotBlank(message = "{validation.required}")
     private String name;
 

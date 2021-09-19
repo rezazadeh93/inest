@@ -45,10 +45,11 @@ public class SocialCrudServiceImpl implements SocialCrudService {
     }
 
     @Override
-    public Optional<SocialDTO> saveBySocialDTO(@NonNull final SocialDTO socialDTO, @NonNull Long linkID) {
-        log.debug("logging service: @saveBySocialDTO => id : " + linkID);
-        LinkDTO linkFound = getLinkByID(linkID);
+    public Optional<SocialDTO> saveBySocialDTO(@NonNull final SocialDTO socialDTO) {
+        log.debug("logging service: @saveBySocialDTO => id : " + socialDTO.getLinkID());
+        LinkDTO linkFound = getLinkByID(socialDTO.getLinkID());
 
+        // @Todo checks if name already exist, throw an exception
         // if social doesn't exist already and it's POST Method
         if (Objects.isNull(socialDTO.getId())) {
             linkFound.getSocials()
@@ -68,11 +69,11 @@ public class SocialCrudServiceImpl implements SocialCrudService {
         return linkCrudService.saveLinkDtoByAccount(linkFound, linkFound.getAccountID())
                 .orElseThrow(() -> new ResponseStatusException(
                                 HttpStatus.INTERNAL_SERVER_ERROR,
-                                ExceptionMessages.getInternalSeverException(linkID.toString())
+                                ExceptionMessages.getInternalSeverException(socialDTO.getLinkID().toString())
                         )
                 ).getSocials()
                 .stream()
-                .filter(social -> social.getId().equals(socialDTO.getId()))
+                .filter(social -> social.getName().equals(socialDTO.getName()))
                 .findFirst();
     }
 
@@ -87,6 +88,8 @@ public class SocialCrudServiceImpl implements SocialCrudService {
                     HttpStatus.BAD_REQUEST,
                     ExceptionMessages.getInternalSeverException(id.toString())
             );
+
+        linkCrudService.saveLinkDtoByAccount(linkFound, linkFound.getAccountID());
     }
 
     private LinkDTO getLinkByID(@NonNull Long linkID) {

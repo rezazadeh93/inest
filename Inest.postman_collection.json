@@ -177,7 +177,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Links By ID",
+					"name": "Get Link By ID",
 					"request": {
 						"auth": {
 							"type": "oauth2",
@@ -254,7 +254,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Link By ID",
+					"name": "Create New Link",
 					"request": {
 						"auth": {
 							"type": "oauth2",
@@ -483,6 +483,419 @@
 							"query": [
 								{
 									"key": "id",
+									"value": "17"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Socials",
+			"item": [
+				{
+					"name": "Get All Socials By Link ID",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/api/v1/socials?linkID=17",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"socials"
+							],
+							"query": [
+								{
+									"key": "linkID",
+									"value": "17"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Social By ID And Link ID",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/api/v1/social?id=1&linkID=17",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"social"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "linkID",
+									"value": "17"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connect New Social By Link ID",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"linkID\": \"17\",\n    \"name\": \"amin\",\n    \"label\": \"click me\",\n    \"url\": \"http://amin.ink/asd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/social",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"social"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Social By ID And Link ID",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"33\",\n    \"linkID\": \"17\",\n    \"name\": \"amirrr\",\n    \"label\": \"click me\",\n    \"url\": \"http://amin.ink/asd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/social",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"social"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Social By ID And Link ID",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/social?id=32&linkID=17",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"social"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "32"
+								},
+								{
+									"key": "linkID",
 									"value": "17"
 								}
 							]

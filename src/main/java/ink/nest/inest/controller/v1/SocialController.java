@@ -4,12 +4,11 @@ import ink.nest.inest.api.v1.model.SocialDTO;
 import ink.nest.inest.constant.InestApiConstant;
 import ink.nest.inest.exception.ExceptionMessages;
 import ink.nest.inest.service.SocialCrudService;
-import ink.nest.inest.service.SocialCrudServiceImpl;
+import ink.nest.inest.service.SocialNameCrudService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.SecondaryTable;
 import javax.validation.Valid;
 import java.util.Set;
 
@@ -17,9 +16,18 @@ import java.util.Set;
 @RequestMapping(InestApiConstant.API_V1_PATH)
 public class SocialController {
     private final SocialCrudService socialCrudService;
+    private final SocialNameCrudService socialNameCrudService;
 
-    public SocialController(SocialCrudService socialCrudService) {
+    public SocialController(SocialCrudService socialCrudService,
+                            SocialNameCrudService socialNameCrudService) {
         this.socialCrudService = socialCrudService;
+        this.socialNameCrudService = socialNameCrudService;
+    }
+
+    @GetMapping("social/names")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<String> getAllSocialNames() {
+        return socialNameCrudService.getAll();
     }
 
     @GetMapping("socials")

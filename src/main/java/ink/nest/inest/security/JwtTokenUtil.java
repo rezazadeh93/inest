@@ -2,14 +2,10 @@ package ink.nest.inest.security;
 
 import ink.nest.inest.api.v1.request.GenerateTokenRequest;
 import ink.nest.inest.constant.InestApiConstant;
-import ink.nest.inest.domain.Account;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -27,8 +23,6 @@ public class JwtTokenUtil {
     private String jwtSecret;
 
     public String generateAccessToken(GenerateTokenRequest request) {
-        System.out.println(jwtSecret);
-        System.out.println(jwtIssuer);
         return Jwts.builder()
                 .setSubject(format("%s,%s", request.getUsername(), request.getAuthorities()))
                 .setIssuer(jwtIssuer)

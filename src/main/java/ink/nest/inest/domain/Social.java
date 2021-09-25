@@ -14,7 +14,9 @@ public class Social {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long LinkID;
+
+    @ManyToOne
+    private Link link;
 
     private String name;
     private String label;

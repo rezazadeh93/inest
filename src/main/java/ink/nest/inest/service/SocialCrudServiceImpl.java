@@ -1,7 +1,8 @@
 package ink.nest.inest.service;
 
-import ink.nest.inest.api.v1.model.LinkDTO;
-import ink.nest.inest.api.v1.model.SocialDTO;
+import ink.nest.inest.constant.MessagesConstant;
+import ink.nest.inest.domain.Link;
+import ink.nest.inest.domain.Social;
 import ink.nest.inest.exception.ExceptionMessages;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,65 +24,122 @@ public class SocialCrudServiceImpl implements SocialCrudService {
     }
 
     @Override
-    public Set<SocialDTO> getAllByLinkID(@NonNull final Long linkID) {
+    public Set<Social> getAllByLinkID(@NonNull final Long linkID) {
         log.debug("logging service: @getAllByLinkID => id : " + linkID);
 
         // find link related to social by link id
-        return linkCrudService.findByID(linkID)
-                .map(LinkDTO::getSocials)
+        return linkCrudService.findLinkByID(linkID)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         ExceptionMessages.getNotFoundException(linkID.toString())
-                ));
+                )).getSocials();
     }
 
     @Override
-    public Optional<SocialDTO> findByIdAndLinkID(@NonNull Long id, @NonNull Long linkID) {
+    public Optional<Social> findByIdAndLinkID(@NonNull final Long id, @NonNull Long linkID) {
         log.debug("logging service: @findByIdAndLinkID => id : " + linkID);
 
-        LinkDTO linkFound = getLinkByID(linkID);
-
-        return getSocialByIdAndLink(id, linkFound);
-    }
-
-    @Override
-    public Optional<SocialDTO> saveBySocialDTO(@NonNull final SocialDTO socialDTO) {
-        log.debug("logging service: @saveBySocialDTO => id : " + socialDTO.getLinkID());
-        LinkDTO linkFound = getLinkByID(socialDTO.getLinkID());
-
-        // @Todo checks if name already exist, throw an exception
-        // if social doesn't exist already and it's POST Method
-        if (Objects.isNull(socialDTO.getId())) {
-            linkFound.getSocials()
-                    .add(socialDTO);
-        } else {
-            // if social exist and it's PUT METHOD
-            linkFound.getSocials()
-                    .forEach(social -> {
-                        if (social.getId().equals(socialDTO.getId())) {
-                            social.setName(socialDTO.getName());
-                            social.setLabel(socialDTO.getLabel());
-                            social.setUrl(socialDTO.getUrl());
-                        }
-                    });
-        }
-
-        return linkCrudService.saveLinkDtoByAccount(linkFound, linkFound.getAccountID())
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.INTERNAL_SERVER_ERROR,
-                                ExceptionMessages.getInternalSeverException(socialDTO.getLinkID().toString())
-                        )
-                ).getSocials()
+        return getLinkByID(linkID)
+                .getSocials()
                 .stream()
-                .filter(social -> social.getName().equals(socialDTO.getName()))
+                .filter(socialDTO -> socialDTO.getId().equals(id))
                 .findFirst();
     }
 
     @Override
-    public void softDeleteByID(@NonNull Long id, @NonNull Long linkID) {
+    public Optional<Social> findByNameAndLinkID(@NonNull final String name, @NonNull Long linkID) {
+        log.debug("logging service: @findByNameAndLinkID => id : " + name);
+
+        return getLinkByID(linkID)
+                .getSocials()
+                .stream()
+                .filter(social -> social.getName().equalsIgnoreCase(name))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Social> updateBySocial(@NonNull final Social socialToSave) {
+        log.debug("logging service: @updateBySocialDTO => id : " + socialToSave.getName());
+
+        Link linkFound = socialToSave.getLink();
+
+        // if social ID is null find by name in PUT Method
+        if (!Objects.isNull(socialToSave.getId())) {
+
+            // if social exist and it's PUT METHOD
+            linkFound.getSocials()
+                    .forEach(social -> {
+                        if (social.getId().equals(socialToSave.getId())) {
+                            social.setLabel(socialToSave.getLabel());
+                            social.setUrl(socialToSave.getUrl());
+                        }
+                    });
+        } else {
+
+            // if social exist and it's PUT METHOD
+            linkFound.getSocials()
+                    .forEach(social -> {
+                        if (social.getName().equals(socialToSave.getName())) {
+                            social.setName(socialToSave.getName());
+                            social.setLabel(socialToSave.getLabel());
+                            social.setUrl(socialToSave.getUrl());
+                        }
+                    });
+        }
+
+        return linkCrudService.saveLinkByAccount(linkFound)
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.INTERNAL_SERVER_ERROR,
+                                ExceptionMessages.getInternalSeverException(linkFound.getId().toString())
+                        )
+                ).getSocials()
+                .stream()
+                .filter(social -> social.getId().equals(socialToSave.getId()))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Social> saveBySocial(@NonNull final Social socialToSave) {
+        log.debug("logging service: @saveBySocialDTO => id : " + socialToSave.getName());
+
+        Link linkFound = socialToSave.getLink();
+
+        // check if this name already created in table or not
+        boolean nameExist = linkFound.getSocials()
+                .stream()
+                .anyMatch(
+                        social -> social.getName().equalsIgnoreCase(socialToSave.getName())
+                );
+
+        // throw an exception if name exist already for POST method
+        if (Objects.isNull(socialToSave.getId()) && nameExist)
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format(MessagesConstant.ALREADY_EXIST_FORMAT, socialToSave.getName())
+            );
+
+        // if social doesn't exist already and it's POST Method
+        if (Objects.isNull(socialToSave.getId())) {
+            linkFound.getSocials()
+                    .add(socialToSave);
+        }
+
+        return linkCrudService.saveLinkByAccount(linkFound)
+                .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.INTERNAL_SERVER_ERROR,
+                                ExceptionMessages.getInternalSeverException(linkFound.getId().toString())
+                        )
+                ).getSocials()
+                .stream()
+                .filter(social -> social.getName().equals(socialToSave.getName()))
+                .findFirst();
+    }
+
+    @Override
+    public void softDeleteByID(@NonNull final Long id, @NonNull Long linkID) {
         log.debug("logging service: @softDeleteByIdAccount => id : " + id);
 
-        LinkDTO linkFound = getLinkByID(linkID);
+        final Link linkFound = getLinkByID(linkID);
 
         if (!linkFound.getSocials().removeIf(socialDTO -> socialDTO.getId().equals(id)))
             throw new ResponseStatusException(
@@ -89,22 +147,15 @@ public class SocialCrudServiceImpl implements SocialCrudService {
                     ExceptionMessages.getInternalSeverException(id.toString())
             );
 
-        linkCrudService.saveLinkDtoByAccount(linkFound, linkFound.getAccountID());
+        linkCrudService.saveLinkByAccount(linkFound);
     }
 
-    private LinkDTO getLinkByID(@NonNull Long linkID) {
-        return linkCrudService.findByID(linkID)
+    private Link getLinkByID(@NonNull Long linkID) {
+        return linkCrudService.findLinkByID(linkID)
                 .orElseThrow(() -> new ResponseStatusException(
                                 HttpStatus.BAD_REQUEST,
                                 ExceptionMessages.getNotFoundException(linkID.toString())
                         )
                 );
-    }
-
-    private Optional<SocialDTO> getSocialByIdAndLink(@NonNull Long id, @NonNull final LinkDTO linkFound) {
-        return linkFound.getSocials()
-                .stream()
-                .filter(socialDTO -> socialDTO.getId().equals(id))
-                .findFirst();
     }
 }

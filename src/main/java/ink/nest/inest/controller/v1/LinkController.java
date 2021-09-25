@@ -1,10 +1,12 @@
 package ink.nest.inest.controller.v1;
 
+import ink.nest.inest.api.v1.mapper.LinkMapper;
 import ink.nest.inest.api.v1.model.LinkDTO;
-import ink.nest.inest.api.v1.request.LinkRequest;
 import ink.nest.inest.constant.InestApiConstant;
+import ink.nest.inest.domain.Link;
 import ink.nest.inest.exception.ExceptionMessages;
 import ink.nest.inest.security.JwtTokenUtil;
+import ink.nest.inest.service.AccountCrudService;
 import ink.nest.inest.service.LinkCrudService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +16,20 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(InestApiConstant.API_V1_PATH)
 public class LinkController {
+    private final AccountCrudService accountCrudService;
+    private final LinkMapper linkMapper;
     private final LinkCrudService linkCrudService;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public LinkController(LinkCrudService linkCrudService,
+    public LinkController(AccountCrudService accountCrudService, LinkMapper linkMapper, LinkCrudService linkCrudService,
                           JwtTokenUtil jwtTokenUtil) {
+        this.accountCrudService = accountCrudService;
+        this.linkMapper = linkMapper;
         this.linkCrudService = linkCrudService;
         this.jwtTokenUtil = jwtTokenUtil;
     }
@@ -34,46 +41,66 @@ public class LinkController {
                 .replace(InestApiConstant.HEADER_BEARER, "");
 
         //get username from token
-        return linkCrudService.getAll(jwtTokenUtil.getUsername(token));
+        return linkCrudService
+                .getAllByUsername(jwtTokenUtil.getUsername(token))
+                .stream()
+                .map(linkMapper::linkToLinkDTO)
+                .collect(Collectors.toSet());
     }
 
     @GetMapping("link")
     @ResponseStatus(HttpStatus.OK)
     public LinkDTO getLink(@RequestParam("id") Long id) {
-        return linkCrudService.findByID(id)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(id.toString())
-                        )
+        return linkMapper.linkToLinkDTO
+                (
+                        linkCrudService.findLinkByID(id)
+                                .orElseThrow(
+                                        () -> new ResponseStatusException(
+                                                HttpStatus.BAD_REQUEST,
+                                                ExceptionMessages.getNotFoundException(id.toString())
+                                        )
+                                )
                 );
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("link")
-    public LinkDTO createLink(@Valid @RequestBody LinkRequest linkRequest, WebRequest request) {
+    public LinkDTO createLink(@Valid @RequestBody LinkDTO linkRequest, WebRequest request) {
         //get token from header
         String token = Objects.requireNonNull(request.getHeader(InestApiConstant.HEADER_AUTHORIZATION))
                 .split(" ")[1];
 
         String username = jwtTokenUtil.getUsername(token);
 
-        LinkDTO linkDTO = new LinkDTO(linkRequest.getName());
-        if (!Objects.isNull(linkRequest.getId()))
-            linkDTO.setId(linkRequest.getId());
 
-        return linkCrudService.saveLinkDtoByAccount(linkDTO, username)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.INTERNAL_SERVER_ERROR,
-                                ExceptionMessages.getInternalSeverException(username)
+        linkRequest.setAccountID(null);
+        linkRequest.setSocials(null);
+        linkRequest.setTemplate(null);
+        Link linkFound = linkMapper.dtoLinkToLink(linkRequest);
+        linkFound.setAccount(
+                accountCrudService.findAccountByEmail(username)
+                        .orElseThrow(
+                                () -> new ResponseStatusException(
+                                        HttpStatus.BAD_REQUEST,
+                                        ExceptionMessages.getNotFoundException(username)
+                                )
                         )
-                );
+        );
+
+        return linkMapper.linkToLinkDTO(
+                linkCrudService.saveLinkByAccount(linkFound)
+                        .orElseThrow(
+                                () -> new ResponseStatusException(
+                                        HttpStatus.INTERNAL_SERVER_ERROR,
+                                        ExceptionMessages.getInternalSeverException(username)
+                                )
+                        )
+        );
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("link")
-    public LinkDTO updateLink(@Valid @RequestBody LinkRequest linkRequest, WebRequest request) {
+    public LinkDTO updateLink(@Valid @RequestBody LinkDTO linkRequest, WebRequest request) {
         return createLink(linkRequest, request);
     }
 

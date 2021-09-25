@@ -7,8 +7,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Mapper(componentModel = "spring")
 public interface LinkMapper {
@@ -20,7 +18,7 @@ public interface LinkMapper {
     Link dtoLinkToLink(LinkDTO linkDTO);
 
     @Named("getAccountID")
-    public static Long getAccountID(Account account) {
+    static Long getAccountID(Account account) {
         return account.getId();
     }
 }

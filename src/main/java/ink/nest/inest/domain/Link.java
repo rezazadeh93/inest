@@ -13,8 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude = {"account"})
-@ToString(exclude = {"account"})
+@EqualsAndHashCode(exclude = {"account", "socials"})
+@ToString(exclude = {"account", "socials"})
 
 @SQLDelete(sql = "UPDATE link SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")

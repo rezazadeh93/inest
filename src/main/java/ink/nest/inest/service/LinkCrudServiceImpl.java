@@ -1,8 +1,5 @@
 package ink.nest.inest.service;
 
-import ink.nest.inest.api.v1.mapper.AccountMapper;
-import ink.nest.inest.api.v1.mapper.LinkMapper;
-import ink.nest.inest.api.v1.model.LinkDTO;
 import ink.nest.inest.domain.Account;
 import ink.nest.inest.domain.Link;
 import ink.nest.inest.exception.ExceptionMessages;
@@ -10,9 +7,11 @@ import ink.nest.inest.repository.LinkRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -22,87 +21,49 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 public class LinkCrudServiceImpl implements LinkCrudService {
-    private final AccountMapper accountMapper;
-    private final LinkMapper linkMapper;
     private final LinkRepository linkRepository;
     private final AccountCrudService accountCrudService;
 
-    public LinkCrudServiceImpl(AccountMapper accountMapper, LinkMapper linkMapper,
-                               LinkRepository linkRepository,
+    public LinkCrudServiceImpl(LinkRepository linkRepository,
                                AccountCrudService accountCrudService) {
-        this.accountMapper = accountMapper;
-        this.linkMapper = linkMapper;
         this.linkRepository = linkRepository;
         this.accountCrudService = accountCrudService;
     }
 
     @Override
-    public Set<LinkDTO> getAll(String username) {
+    public Set<Link> getAllByUsername(@Nullable String username) {
 
         if (Objects.isNull(username)) {
             return StreamSupport
                     .stream(linkRepository.findAll().spliterator(), false)
-                    .map(linkMapper::linkToLinkDTO)
                     .collect(Collectors.toSet());
         }
 
-        Account account = accountCrudService.findByEmail(username)
+        Account account = accountCrudService.findAccountByEmail(username)
                 .orElseThrow(() -> new ResponseStatusException(
                                 HttpStatus.BAD_REQUEST,
                                 ExceptionMessages.getNotFoundException(username)
                         )
                 );
 
-        return account
-                .getLinks()
-                .stream()
-                .map(linkMapper::linkToLinkDTO)
-                .collect(Collectors.toSet());
+        return Collections.unmodifiableSet(account.getLinks());
     }
 
     @Override
-    public Optional<LinkDTO> findByID(@NonNull Long id) {
-        return linkRepository
-                .findById(id)
-                .map(linkMapper::linkToLinkDTO);
+    public Optional<Link> findLinkByID(@NonNull Long id) {
+        return linkRepository.findById(id);
     }
 
-    @Override
-    public Optional<LinkDTO> saveLinkDtoByAccount(@NonNull LinkDTO linkRequest, @NonNull String accountEmail) {
-        log.debug("logging service: @saveLinkDtoByAccount => name : " + linkRequest.getName());
-
-        Account accountFound = accountCrudService.findByEmail(accountEmail)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(accountEmail)
-                        )
-                );
-
-        return saveLinkDTO(linkRequest, accountFound);
-    }
-
-    @Override
-    public Optional<LinkDTO> saveLinkDtoByAccount(@NonNull LinkDTO linkRequest, @NonNull Long accountID) {
-        log.debug("logging service: @saveLinkDtoByAccount => name : " + linkRequest.getName());
-
-        Account accountFound = accountCrudService.findByID(accountID)
-                .map(accountMapper::dtoAccountToAccount)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(accountID.toString())
-                        )
-                );
-
-        return saveLinkDTO(linkRequest, accountFound);
-    }
-
-    private Optional<LinkDTO> saveLinkDTO(@NonNull LinkDTO linkRequest, @NonNull Account account) {
+    public Optional<Link> saveLinkByAccount(@NonNull Link linkToSave) {
+        log.debug("logging service: @saveLinkDTO => name : " + linkToSave.getName());
 
         Link savedLink;
+        Account account = linkToSave.getAccount();
+
         // if POST request was send
-        if (Objects.isNull(linkRequest.getId())) {
+        if (Objects.isNull(linkToSave.getId())) {
             Link attachLink = new Link();
-            attachLink.setName(linkRequest.getName());
+            attachLink.setName(linkToSave.getName());
             attachLink.setAccount(account);
 
             savedLink = linkRepository.save(attachLink);
@@ -112,22 +73,21 @@ public class LinkCrudServiceImpl implements LinkCrudService {
         } else {
             // if PUT request was send
             Link foundLink = linkRepository
-                    .findById(linkRequest.getId())
+                    .findById(linkToSave.getId())
                     .orElseThrow(() -> new ResponseStatusException(
                                     HttpStatus.BAD_REQUEST,
                                     ExceptionMessages.getNotFoundException(
-                                            linkRequest.getId().toString()
+                                            linkToSave.getId().toString()
                                     )
                             )
                     );
 
-            Link detachLink = linkMapper.dtoLinkToLink(linkRequest);
-            foundLink.setName(detachLink.getName());
-            foundLink.setSocials(detachLink.getSocials());
-            foundLink.setTemplate(detachLink.getTemplate());
+            foundLink.setName(linkToSave.getName());
+            foundLink.setSocials(linkToSave.getSocials());
+            foundLink.setTemplate(linkToSave.getTemplate());
             savedLink = linkRepository.save(foundLink);
         }
-        return Optional.ofNullable(linkMapper.linkToLinkDTO(savedLink));
+        return Optional.of(savedLink);
     }
 
     @Override

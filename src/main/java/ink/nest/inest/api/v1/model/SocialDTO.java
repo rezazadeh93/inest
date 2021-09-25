@@ -1,30 +1,34 @@
 package ink.nest.inest.api.v1.model;
 
+import ink.nest.inest.annotation.SocialNameMatches;
+import ink.nest.inest.validation.SocialPost;
+import ink.nest.inest.validation.SocialPut;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocialDTO {
+    @NotNull(groups = SocialPut.class, message = "{validation.required}")
     private Long id;
 
-    // @Todo This field must be Validate too
-    // @NotBlank(message = "{validation.required}")
+     @NotNull(groups = {SocialPost.class, SocialPut.class},  message = "{validation.required}")
     private Long linkID;
 
-    // @Todo validate if name is in socialName tables or not
-    @NotBlank(message = "{validation.required}")
+    @SocialNameMatches(groups = SocialPost.class)
+    @NotBlank(groups = SocialPost.class, message = "{validation.required}")
     private String name;
 
-    @NotBlank(message = "{validation.required}")
+    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{validation.required}")
     private String label;
 
     @URL
-    @NotBlank(message = "{validation.required}")
+    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{validation.required}")
     private String url;
 }

@@ -3,8 +3,11 @@ package ink.nest.inest.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -21,4 +24,6 @@ public class Social {
     private String name;
     private String label;
     private String url;
+
+    private LocalDate createAt;
 }

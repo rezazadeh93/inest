@@ -6,9 +6,10 @@ import ink.nest.inest.api.v1.request.AuthRequest;
 import ink.nest.inest.api.v1.request.GenerateTokenRequest;
 import ink.nest.inest.api.v1.request.RegisterRequest;
 import ink.nest.inest.constant.InestApiConstant;
-import ink.nest.inest.exception.ExceptionMessages;
+import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.security.JwtTokenUtil;
 import ink.nest.inest.service.AccountCrudService;
+import ink.nest.inest.utility.Messages;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 @RestController
 @RequestMapping(InestApiConstant.API_AUTH_PATH)
@@ -28,14 +29,16 @@ public class AuthenticateController {
     private final AccountCrudService accountService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
+    private final Messages messages;
 
     public AuthenticateController(AccountMapper accountMapper, AccountCrudService accountService,
                                   AuthenticationManager authenticationManager,
-                                  JwtTokenUtil jwtTokenUtil) {
+                                  JwtTokenUtil jwtTokenUtil, Messages messages) {
         this.accountMapper = accountMapper;
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.accountService = accountService;
+        this.messages = messages;
     }
 
     @PostMapping("register")
@@ -44,9 +47,8 @@ public class AuthenticateController {
         AccountDTO savedAccountDTO = accountService
                 .registerNewUserAccount(account)
                 .map(accountMapper::accountToAccountDTO)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(account.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                messages.getExceptionMessage("message.notFound", Collections.singletonList(account.getEmail()))
                         )
                 );
 

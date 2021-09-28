@@ -15,20 +15,20 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocialDTO {
-    @NotNull(groups = SocialPut.class, message = "{validation.required}")
+    @NotNull(groups = SocialPut.class, message = "{message.id}")
     private Long id;
 
-     @NotNull(groups = {SocialPost.class, SocialPut.class},  message = "{validation.required}")
+     @NotNull(groups = {SocialPost.class, SocialPut.class},  message = "{message.linkID}")
     private Long linkID;
 
     @SocialNameMatches(groups = SocialPost.class)
-    @NotBlank(groups = SocialPost.class, message = "{validation.required}")
+    @NotBlank(groups = SocialPost.class, message = "{message.name}")
     private String name;
 
-    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{validation.required}")
+    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{message.label}")
     private String label;
 
-    @URL
-    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{validation.required}")
+    @URL(groups = {SocialPost.class, SocialPut.class}, message = "{message.urlNotValid}")
+    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{message.url}")
     private String url;
 }

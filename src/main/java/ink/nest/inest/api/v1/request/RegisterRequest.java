@@ -15,13 +15,13 @@ import java.io.Serializable;
 
 @PasswordMatches
 public class RegisterRequest implements Serializable {
-    @NotBlank(message = "{validation.required}")
-    @Email(message = "{validation.email}")
+    @NotBlank(message = "{message.email}")
+    @Email(message = "{message.badEmail}")
     private String email;
 
-    @NotBlank(message = "{validation.required}")
+    @NotBlank(message = "{message.password}")
     private String password;
 
-    @NotBlank(message = "{validation.required}")
+    @NotBlank(message = "{message.confirmPassword}")
     private String confirmPassword;
 }

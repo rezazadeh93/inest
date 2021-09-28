@@ -19,7 +19,7 @@ public class LinkDTO {
     private Long id;
     private Long accountID;
 
-    @NotBlank(message = "{validation.required}")
+    @NotBlank(message = "{message.name}")
     private String name;
     private Set<SocialDTO> socials = new HashSet<>();
     private TemplateDTO template;

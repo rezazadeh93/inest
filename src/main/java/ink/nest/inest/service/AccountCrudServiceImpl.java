@@ -3,13 +3,12 @@ package ink.nest.inest.service;
 import ink.nest.inest.api.v1.mapper.AccountMapper;
 import ink.nest.inest.api.v1.request.RegisterRequest;
 import ink.nest.inest.domain.Account;
-import ink.nest.inest.exception.EmailExistsException;
-import ink.nest.inest.exception.ExceptionMessages;
+import ink.nest.inest.exception.ResourceExistsException;
+import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.repository.AccountRepository;
+import ink.nest.inest.utility.Messages;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -21,10 +20,12 @@ import java.util.Set;
 public class AccountCrudServiceImpl implements AccountCrudService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final Messages messages;
 
-    public AccountCrudServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper) {
+    public AccountCrudServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, Messages messages) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
+        this.messages = messages;
     }
 
     @Override
@@ -58,10 +59,10 @@ public class AccountCrudServiceImpl implements AccountCrudService {
         } else {
             // if request was send PUT
             accountRepository.findById(account.getId())
-                    .orElseThrow(() -> new ResponseStatusException(
-                                    HttpStatus.BAD_REQUEST,
-                                    ExceptionMessages.getNotFoundException(
-                                            account.getId().toString()
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                                    messages.getExceptionMessage(
+                                            "message.notFound",
+                                            Collections.singletonList(account.getId())
                                     )
                             )
                     );
@@ -83,7 +84,7 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     public Optional<Account> registerNewUserAccount(RegisterRequest request) {
 
         if (emailExist(request.getEmail())) {
-            throw new EmailExistsException("This email already exist: " + request.getEmail());
+            throw new ResourceExistsException();
         }
 
         Account detachAccount = accountMapper.dtoReqRegisterToAccount(request);

@@ -4,16 +4,18 @@ import ink.nest.inest.api.v1.mapper.LinkMapper;
 import ink.nest.inest.api.v1.model.LinkDTO;
 import ink.nest.inest.constant.InestApiConstant;
 import ink.nest.inest.domain.Link;
-import ink.nest.inest.exception.ExceptionMessages;
+import ink.nest.inest.exception.InternalServerException;
+import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.security.JwtTokenUtil;
 import ink.nest.inest.service.AccountCrudService;
 import ink.nest.inest.service.LinkCrudService;
+import ink.nest.inest.utility.Messages;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,13 +27,18 @@ public class LinkController {
     private final LinkMapper linkMapper;
     private final LinkCrudService linkCrudService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final Messages messages;
 
-    public LinkController(AccountCrudService accountCrudService, LinkMapper linkMapper, LinkCrudService linkCrudService,
-                          JwtTokenUtil jwtTokenUtil) {
+    public LinkController(AccountCrudService accountCrudService,
+                          LinkMapper linkMapper,
+                          LinkCrudService linkCrudService,
+                          JwtTokenUtil jwtTokenUtil,
+                          Messages messages) {
         this.accountCrudService = accountCrudService;
         this.linkMapper = linkMapper;
         this.linkCrudService = linkCrudService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.messages = messages;
     }
 
     @GetMapping("links")
@@ -55,15 +62,15 @@ public class LinkController {
                 (
                         linkCrudService.findLinkByID(id)
                                 .orElseThrow(
-                                        () -> new ResponseStatusException(
-                                                HttpStatus.BAD_REQUEST,
-                                                ExceptionMessages.getNotFoundException(id.toString())
+                                        () -> new ResourceNotFoundException(
+                                                messages.getExceptionMessage("message.notFound",
+                                                        List.of(id))
                                         )
                                 )
                 );
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @PostMapping("link")
     public LinkDTO createLink(@Valid @RequestBody LinkDTO linkRequest, WebRequest request) {
         //get token from header
@@ -80,9 +87,9 @@ public class LinkController {
         linkFound.setAccount(
                 accountCrudService.findAccountByEmail(username)
                         .orElseThrow(
-                                () -> new ResponseStatusException(
-                                        HttpStatus.BAD_REQUEST,
-                                        ExceptionMessages.getNotFoundException(username)
+                                () -> new ResourceNotFoundException(
+                                        messages.getExceptionMessage("message.notFound",
+                                                List.of(username))
                                 )
                         )
         );
@@ -90,9 +97,9 @@ public class LinkController {
         return linkMapper.linkToLinkDTO(
                 linkCrudService.saveLinkByAccount(linkFound)
                         .orElseThrow(
-                                () -> new ResponseStatusException(
-                                        HttpStatus.INTERNAL_SERVER_ERROR,
-                                        ExceptionMessages.getInternalSeverException(username)
+                                () -> new InternalServerException(
+                                        messages.getExceptionMessage("message.internalServerError",
+                                                List.of(username))
                                 )
                         )
         );

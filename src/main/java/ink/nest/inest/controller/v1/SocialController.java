@@ -5,17 +5,19 @@ import ink.nest.inest.api.v1.model.SocialDTO;
 import ink.nest.inest.constant.InestApiConstant;
 import ink.nest.inest.domain.Link;
 import ink.nest.inest.domain.Social;
-import ink.nest.inest.exception.ExceptionMessages;
+import ink.nest.inest.exception.InternalServerException;
+import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.service.LinkCrudService;
 import ink.nest.inest.service.SocialCrudService;
 import ink.nest.inest.service.SocialNameCrudService;
+import ink.nest.inest.utility.Messages;
 import ink.nest.inest.validation.SocialPost;
 import ink.nest.inest.validation.SocialPut;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,14 +28,16 @@ public class SocialController {
     private final SocialCrudService socialCrudService;
     private final SocialNameCrudService socialNameCrudService;
     private final SocialMapper socialMapper;
+    private final Messages messages;
 
     public SocialController(LinkCrudService linkCrudService,
                             SocialCrudService socialCrudService,
-                            SocialNameCrudService socialNameCrudService, SocialMapper socialMapper) {
+                            SocialNameCrudService socialNameCrudService, SocialMapper socialMapper, Messages messages) {
         this.linkCrudService = linkCrudService;
         this.socialCrudService = socialCrudService;
         this.socialNameCrudService = socialNameCrudService;
         this.socialMapper = socialMapper;
+        this.messages = messages;
     }
 
     @GetMapping("social/names")
@@ -58,9 +62,9 @@ public class SocialController {
         return socialMapper.socialToSocialDTO(
                 socialCrudService.findByIdAndLinkID(id, linkID)
                         .orElseThrow(
-                                () -> new ResponseStatusException(
-                                        HttpStatus.BAD_REQUEST,
-                                        ExceptionMessages.getNotFoundException(id.toString())
+                                () -> new ResourceNotFoundException(
+                                        messages.getExceptionMessage("message.notFound",
+                                                List.of(id))
                                 )
                         )
         );
@@ -75,9 +79,9 @@ public class SocialController {
         Social social = socialMapper.dotSocialTOSocial(socialDTO);
         social.setLink(
                 linkCrudService.findLinkByID(socialDTO.getLinkID())
-                        .orElseThrow(() -> new ResponseStatusException(
-                                        HttpStatus.BAD_REQUEST,
-                                        ExceptionMessages.getNotFoundException(socialDTO.getLinkID().toString())
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                        messages.getExceptionMessage("message.notFound",
+                                                List.of(socialDTO.getLinkID()))
                                 )
                         )
         );
@@ -85,9 +89,9 @@ public class SocialController {
         return socialMapper.socialToSocialDTO(
                 socialCrudService.saveBySocial(social)
                         .orElseThrow(
-                                () -> new ResponseStatusException(
-                                        HttpStatus.INTERNAL_SERVER_ERROR,
-                                        ExceptionMessages.getInternalSeverException(socialDTO.getName())
+                                () -> new InternalServerException(
+                                        messages.getExceptionMessage("message.internalServerError",
+                                                List.of(socialDTO.getName()))
                                 )
                         )
         );
@@ -97,9 +101,9 @@ public class SocialController {
     @ResponseStatus(HttpStatus.OK)
     public SocialDTO updateSocial(@Validated(SocialPut.class) @RequestBody SocialDTO socialDTO) {
         Link linkFound = linkCrudService.findLinkByID(socialDTO.getLinkID())
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(socialDTO.getLinkID().toString())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                messages.getExceptionMessage("message.notFound",
+                                        List.of(socialDTO.getLinkID()))
                         )
                 );
 
@@ -111,9 +115,9 @@ public class SocialController {
                         social -> social.getId().equals(socialDTO.getId())
                 )
         )
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    ExceptionMessages.getNotFoundException(socialDTO.getId().toString())
+            throw new ResourceNotFoundException(
+                    messages.getExceptionMessage("message.notFound",
+                            List.of(socialDTO.getLinkID()))
             );
 
         Social social = socialMapper.dotSocialTOSocial(socialDTO);
@@ -122,9 +126,9 @@ public class SocialController {
         return socialMapper.socialToSocialDTO(
                 socialCrudService.updateBySocial(social)
                         .orElseThrow(
-                                () -> new ResponseStatusException(
-                                        HttpStatus.INTERNAL_SERVER_ERROR,
-                                        ExceptionMessages.getInternalSeverException(socialDTO.getName())
+                                () -> new InternalServerException(
+                                        messages.getExceptionMessage("message.internalServerError",
+                                                List.of(socialDTO.getName()))
                                 )
                         )
         );

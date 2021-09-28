@@ -2,14 +2,13 @@ package ink.nest.inest.service;
 
 import ink.nest.inest.domain.Account;
 import ink.nest.inest.domain.Link;
-import ink.nest.inest.exception.ExceptionMessages;
+import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.repository.LinkRepository;
+import ink.nest.inest.utility.Messages;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -23,11 +22,13 @@ import java.util.stream.StreamSupport;
 public class LinkCrudServiceImpl implements LinkCrudService {
     private final LinkRepository linkRepository;
     private final AccountCrudService accountCrudService;
+    private final Messages messages;
 
     public LinkCrudServiceImpl(LinkRepository linkRepository,
-                               AccountCrudService accountCrudService) {
+                               AccountCrudService accountCrudService, Messages messages) {
         this.linkRepository = linkRepository;
         this.accountCrudService = accountCrudService;
+        this.messages = messages;
     }
 
     @Override
@@ -40,9 +41,11 @@ public class LinkCrudServiceImpl implements LinkCrudService {
         }
 
         Account account = accountCrudService.findAccountByEmail(username)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(username)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                messages.getExceptionMessage(
+                                        "message.notFound",
+                                        Collections.singletonList(username)
+                                )
                         )
                 );
 
@@ -74,10 +77,10 @@ public class LinkCrudServiceImpl implements LinkCrudService {
             // if PUT request was send
             Link foundLink = linkRepository
                     .findById(linkToSave.getId())
-                    .orElseThrow(() -> new ResponseStatusException(
-                                    HttpStatus.BAD_REQUEST,
-                                    ExceptionMessages.getNotFoundException(
-                                            linkToSave.getId().toString()
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                                    messages.getExceptionMessage(
+                                            "message.notFound",
+                                            Collections.singletonList(linkToSave.getId())
                                     )
                             )
                     );

@@ -1,8 +1,8 @@
 package ink.nest.inest.service;
 
 import ink.nest.inest.domain.Account;
-import ink.nest.inest.exception.ExceptionMessages;
-import org.springframework.http.HttpStatus;
+import ink.nest.inest.exception.InternalServerException;
+import ink.nest.inest.utility.Messages;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -18,9 +17,11 @@ import java.util.Collections;
 @Service
 public class UserService implements UserDetailsService {
     private final AccountCrudService accountCrudService;
+    private final Messages messages;
 
-    public UserService(AccountCrudService accountCrudService) {
+    public UserService(AccountCrudService accountCrudService, Messages messages) {
         this.accountCrudService = accountCrudService;
+        this.messages = messages;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class UserService implements UserDetailsService {
         try {
             Account account = accountCrudService.findAccountByEmail(email)
                     .orElseThrow(() -> new UsernameNotFoundException(
-                            ExceptionMessages.getNotFoundException(email)
+                            messages.getExceptionMessage("message.notFoundEmail", Collections.singletonList(email))
                     ));
 
             Collection<GrantedAuthority> authorities = Collections.singleton(
@@ -45,9 +46,8 @@ public class UserService implements UserDetailsService {
                     authorities
             );
         } catch (Exception e) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                    ExceptionMessages.getInternalSeverException(e.getMessage())
+            throw new InternalServerException(
+                    messages.getExceptionMessage("message.internalServerError", Collections.singletonList(e.getMessage()))
             );
         }
     }

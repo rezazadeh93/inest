@@ -11,10 +11,10 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequest {
-    @NotBlank(message = "{validation.required}")
-    @Email(message = "{validation.email}")
+    @NotBlank(message = "{message.email}")
+    @Email(message = "{message.badEmail}")
     private String email;
 
-    @NotBlank(message = "{validation.required}")
+    @NotBlank(message = "{message.password}")
     private String password;
 }

@@ -1,15 +1,15 @@
 package ink.nest.inest.service;
 
-import ink.nest.inest.constant.MessagesConstant;
 import ink.nest.inest.domain.Link;
 import ink.nest.inest.domain.Social;
-import ink.nest.inest.exception.ExceptionMessages;
+import ink.nest.inest.exception.InternalServerException;
+import ink.nest.inest.exception.ResourceNotFoundException;
+import ink.nest.inest.utility.Messages;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -18,9 +18,11 @@ import java.util.Set;
 @Service
 public class SocialCrudServiceImpl implements SocialCrudService {
     private final LinkCrudService linkCrudService;
+    private final Messages messages;
 
-    public SocialCrudServiceImpl(LinkCrudService linkCrudService) {
+    public SocialCrudServiceImpl(LinkCrudService linkCrudService, Messages messages) {
         this.linkCrudService = linkCrudService;
+        this.messages = messages;
     }
 
     @Override
@@ -29,10 +31,14 @@ public class SocialCrudServiceImpl implements SocialCrudService {
 
         // find link related to social by link id
         return linkCrudService.findLinkByID(linkID)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        ExceptionMessages.getNotFoundException(linkID.toString())
-                )).getSocials();
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                messages.getExceptionMessage(
+                                        "message.notFound",
+                                        Collections.singletonList("ID=" + linkID)
+                                )
+                        )
+                )
+                .getSocials();
     }
 
     @Override
@@ -88,9 +94,8 @@ public class SocialCrudServiceImpl implements SocialCrudService {
         }
 
         return linkCrudService.saveLinkByAccount(linkFound)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.INTERNAL_SERVER_ERROR,
-                                ExceptionMessages.getInternalSeverException(linkFound.getId().toString())
+                .orElseThrow(() -> new InternalServerException(
+                                messages.getExceptionMessage("message.internalServerError", Collections.singletonList(linkFound.getId()))
                         )
                 ).getSocials()
                 .stream()
@@ -113,9 +118,8 @@ public class SocialCrudServiceImpl implements SocialCrudService {
 
         // throw an exception if name exist already for POST method
         if (Objects.isNull(socialToSave.getId()) && nameExist)
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    String.format(MessagesConstant.ALREADY_EXIST_FORMAT, socialToSave.getName())
+            throw new ResourceNotFoundException(
+                    messages.getExceptionMessage("message.thisEmailExist", Collections.singletonList(socialToSave.getName()))
             );
 
         // if social doesn't exist already and it's POST Method
@@ -125,9 +129,8 @@ public class SocialCrudServiceImpl implements SocialCrudService {
         }
 
         return linkCrudService.saveLinkByAccount(linkFound)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.INTERNAL_SERVER_ERROR,
-                                ExceptionMessages.getInternalSeverException(linkFound.getId().toString())
+                .orElseThrow(() -> new InternalServerException(
+                                messages.getExceptionMessage("message.internalServerError", Collections.singletonList(linkFound.getId()))
                         )
                 ).getSocials()
                 .stream()
@@ -142,19 +145,21 @@ public class SocialCrudServiceImpl implements SocialCrudService {
         final Link linkFound = getLinkByID(linkID);
 
         if (!linkFound.getSocials().removeIf(socialDTO -> socialDTO.getId().equals(id)))
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    ExceptionMessages.getInternalSeverException(id.toString())
+            throw new ResourceNotFoundException(
+                    messages.getExceptionMessage("message.notFound", Collections.singletonList(id))
             );
 
-        linkCrudService.saveLinkByAccount(linkFound);
+        linkCrudService.saveLinkByAccount(linkFound)
+                .orElseThrow(() -> new InternalServerException(
+                                messages.getExceptionMessage("message.internalServerError", Collections.singletonList(id))
+                        )
+                );
     }
 
     private Link getLinkByID(@NonNull Long linkID) {
         return linkCrudService.findLinkByID(linkID)
-                .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                ExceptionMessages.getNotFoundException(linkID.toString())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                messages.getExceptionMessage("message.notFound", Collections.singletonList(linkID))
                         )
                 );
     }

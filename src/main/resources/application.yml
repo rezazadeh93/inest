@@ -1,10 +1,5 @@
 spring:
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${jwt.issuer}
-          jwk-set-uri: ${jwt.issuer}
     filter:
       order: 10
   web:

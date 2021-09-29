@@ -10,10 +10,7 @@ import ink.nest.inest.utility.Messages;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -84,7 +81,9 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     public Optional<Account> registerNewUserAccount(RegisterRequest request) {
 
         if (emailExist(request.getEmail())) {
-            throw new ResourceExistsException();
+            throw new ResourceExistsException(
+                    messages.getExceptionMessage("message.resourceAlreadyExist", List.of(request.getEmail()))
+            );
         }
 
         Account detachAccount = accountMapper.dtoReqRegisterToAccount(request);

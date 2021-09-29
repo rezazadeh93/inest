@@ -77,15 +77,9 @@ public class RestResponseEntityExceptionHandler {
     // 409
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ResourceExistsException.class})
-    public Map<String, String> handleUserAlreadyExist(final ResourceExistsException ex, final WebRequest request) {
+    public Map<String, String> handleResourceExistsException(final ResourceExistsException ex, final WebRequest request) {
         log.error("409 Status Code", ex);
-        return getResponseBody(
-                "Email",
-                messages.getMessage("message.emailExist",
-                        null,
-                        request.getLocale()
-                )
-        );
+        return getResponseBody("message", ex.getMessage());
     }
 
     @ExceptionHandler({ResponseStatusException.class})

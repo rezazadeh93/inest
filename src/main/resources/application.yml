@@ -13,3 +13,4 @@ server:
 jwt:
   issuer: https://inest.ink/auth/token
   secret: e_bW^+m#<ny~/xP-Wxw`h|YMj>*>GX
+

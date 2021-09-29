@@ -34,7 +34,7 @@ public class SocialCrudServiceImpl implements SocialCrudService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                                 messages.getExceptionMessage(
                                         "message.notFound",
-                                        Collections.singletonList("ID=" + linkID)
+                                        Collections.singletonList("LinkID=" + linkID)
                                 )
                         )
                 )

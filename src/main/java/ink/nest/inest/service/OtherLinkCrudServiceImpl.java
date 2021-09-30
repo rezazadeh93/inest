@@ -64,7 +64,7 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
                             List.of(otherLink.getName()))
             );
         }
-        
+
         OtherLink otherLinkToSave = new OtherLink(
                 otherLink.getName(),
                 otherLink.getLabel(),

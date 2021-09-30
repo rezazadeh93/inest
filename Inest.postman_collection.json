@@ -6,6 +6,30 @@
 	},
 	"item": [
 		{
+			"name": "Public",
+			"item": [
+				{
+					"name": "Get Actuator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/actuator",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"actuator"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Authenticate",
 			"item": [
 				{
@@ -79,30 +103,6 @@
 			]
 		},
 		{
-			"name": "Public",
-			"item": [
-				{
-					"name": "Get Actuator",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:2000/actuator",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "2000",
-							"path": [
-								"actuator"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Links",
 			"item": [
 				{
@@ -118,7 +118,7 @@
 								},
 								{
 									"key": "accessToken",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyNTYyNjUyLCJleHAiOjE2MzMxNjc0NTJ9.T0tc8z6rdX4ySvYrDZ4cL_GJ_LPNjVD38c0GOVoXAb7oaG429prBKiirvA01p2XCNP9ldNnGGldrKWUqxamCng",
 									"type": "string"
 								},
 								{
@@ -232,7 +232,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:2000/api/v1/link?id=18",
+							"raw": "http://localhost:2000/api/v1/link?id=183",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -246,7 +246,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "18"
+									"value": "183"
 								}
 							]
 						}
@@ -310,7 +310,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"bussiness\"\n}",
+							"raw": "{\n    \"name\": \"something\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -390,7 +390,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 17,\n    \"name\": \"hasan_gholi\"\n}",
+							"raw": "{\n    \"id\": 95,\n    \"name\": \"hasan_gholi\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -508,7 +508,7 @@
 								},
 								{
 									"key": "accessToken",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyMjYyODA5LCJleHAiOjE2MzI4Njc2MDl9.si1F58aL4vpSXgUq4MBICqKsNuV8-rFiwB_G8XCYTZl0Qx59HbKQDeST3smXPBPPpfVsDm8sZvoaeF1HHQJYSA",
 									"type": "string"
 								},
 								{
@@ -666,7 +666,7 @@
 								},
 								{
 									"key": "accessToken",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMxNTM0MDQ1LCJleHAiOjE2MzIxMzg4NDV9.qlkLIgfw3ksBzGzelqcjgjzH-o8NAtQVvbVt7ZUO775yU3MQKTpna9ftl0b1GAKWuzUSvLZs-tIYf2s9EWkqjw",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyMjM0MDAxLCJleHAiOjE2MzI4Mzg4MDF9.CTWQg-FiXud3Pny5JkNcEdxogigPFUJYP6WlKZqjndkVkNHs-1TB-1HO2wjwn1B3tjiDE9Ecg9HJBzLIa_Di-w",
 									"type": "string"
 								},
 								{
@@ -710,7 +710,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"linkID\": \"17\",\n    \"name\": \"amin\",\n    \"label\": \"click me\",\n    \"url\": \"http://amin.ink/asd\"\n}",
+							"raw": "{\n    \"linkID\": 94,\n    \"name\": \"wechat\",\n    \"label\": \"hey, click please!\",\n    \"url\": \"http://as.ink/ew\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -790,7 +790,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"33\",\n    \"linkID\": \"17\",\n    \"name\": \"amirrr\",\n    \"label\": \"click me\",\n    \"url\": \"http://amin.ink/asd\"\n}",
+							"raw": "{\n    \"id\": \"103\",\n    \"linkID\": 94,\n    \"label\": \"as, sa me\",\n    \"url\": \"http://amin.ink/xx\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -878,7 +878,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:2000/api/v1/social?id=32&linkID=17",
+							"raw": "http://localhost:2000/api/v1/social?id=99&linkID=94",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -892,12 +892,512 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "32"
+									"value": "99"
 								},
 								{
 									"key": "linkID",
-									"value": "17"
+									"value": "94"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Other Links",
+			"item": [
+				{
+					"name": "Get All Other Links",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyOTI2NTU3LCJleHAiOjE2MzM1MzEzNTd9.JfYBFXG2ogpJaghr_VY8bS0pI0XbJL_kFSZ80PjLTAplXS2hBXSXVqmm6gygSxhbUnrbVQwXrp58hrE_oQRQyg",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/api/v1/link/others",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"link",
+								"others"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Other Link By Name",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyOTI2NTU3LCJleHAiOjE2MzM1MzEzNTd9.JfYBFXG2ogpJaghr_VY8bS0pI0XbJL_kFSZ80PjLTAplXS2hBXSXVqmm6gygSxhbUnrbVQwXrp58hrE_oQRQyg",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/api/v1/link/other?name=some",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"link",
+								"other"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "some"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New OtherLink",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyOTI2NTU3LCJleHAiOjE2MzM1MzEzNTd9.JfYBFXG2ogpJaghr_VY8bS0pI0XbJL_kFSZ80PjLTAplXS2hBXSXVqmm6gygSxhbUnrbVQwXrp58hrE_oQRQyg",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"label\": \"cliiick me\",\n    \"url\": \"http://amin.exm/amiin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/link/other",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"link",
+								"other"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New OtherLink Copy",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyOTI2NTU3LCJleHAiOjE2MzM1MzEzNTd9.JfYBFXG2ogpJaghr_VY8bS0pI0XbJL_kFSZ80PjLTAplXS2hBXSXVqmm6gygSxhbUnrbVQwXrp58hrE_oQRQyg",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"something\",\n    \"label\": \"all\",\n    \"url\": \"http://amin.exm/amirrrr\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/link/other",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"link",
+								"other"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete OtherLink By Name",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyOTI2NTU3LCJleHAiOjE2MzM1MzEzNTd9.JfYBFXG2ogpJaghr_VY8bS0pI0XbJL_kFSZ80PjLTAplXS2hBXSXVqmm6gygSxhbUnrbVQwXrp58hrE_oQRQyg",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/link/other?name=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"link",
+								"other"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Social Names",
+			"item": [
+				{
+					"name": "Get All Social Names",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMyMjM0MDAxLCJleHAiOjE2MzI4Mzg4MDF9.CTWQg-FiXud3Pny5JkNcEdxogigPFUJYP6WlKZqjndkVkNHs-1TB-1HO2wjwn1B3tjiDE9Ecg9HJBzLIa_Di-w",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/api/v1/social/names",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"social",
+								"names"
 							]
 						}
 					},

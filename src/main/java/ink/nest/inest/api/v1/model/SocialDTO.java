@@ -1,8 +1,8 @@
 package ink.nest.inest.api.v1.model;
 
 import ink.nest.inest.annotation.SocialNameMatches;
-import ink.nest.inest.validation.SocialPost;
-import ink.nest.inest.validation.SocialPut;
+import ink.nest.inest.validation.PostMethod;
+import ink.nest.inest.validation.PutMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,20 +15,20 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocialDTO {
-    @NotNull(groups = SocialPut.class, message = "{message.id}")
+    @NotNull(groups = PutMethod.class, message = "{message.id}")
     private Long id;
 
-     @NotNull(groups = {SocialPost.class, SocialPut.class},  message = "{message.linkID}")
+     @NotNull(groups = {PostMethod.class, PutMethod.class},  message = "{message.linkID}")
     private Long linkID;
 
-    @SocialNameMatches(groups = SocialPost.class)
-    @NotBlank(groups = SocialPost.class, message = "{message.name}")
+    @SocialNameMatches(groups = PostMethod.class)
+    @NotBlank(groups = PostMethod.class, message = "{message.name}")
     private String name;
 
-    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{message.label}")
+    @NotBlank(groups = {PostMethod.class, PutMethod.class}, message = "{message.label}")
     private String label;
 
-    @URL(groups = {SocialPost.class, SocialPut.class}, message = "{message.urlNotValid}")
-    @NotBlank(groups = {SocialPost.class, SocialPut.class}, message = "{message.url}")
+    @URL(groups = {PostMethod.class, PutMethod.class}, message = "{message.urlNotValid}")
+    @NotBlank(groups = {PostMethod.class, PutMethod.class}, message = "{message.url}")
     private String url;
 }

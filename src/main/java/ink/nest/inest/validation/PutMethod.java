@@ -1,4 +1,4 @@
 package ink.nest.inest.validation;
 
-public interface SocialPut {
+public interface PutMethod {
 }

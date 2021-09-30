@@ -19,4 +19,9 @@ public class Messages {
                 arg.toArray(),
                 LocaleContextHolder.getLocale());
     }
+    public String getExceptionMessage(String code) {
+        return messages.getMessage(code,
+                null,
+                LocaleContextHolder.getLocale());
+    }
 }

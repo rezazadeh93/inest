@@ -1,10 +1,13 @@
 package ink.nest.inest.api.v1.model;
 
+import ink.nest.inest.validation.PostMethod;
+import ink.nest.inest.validation.PutMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,10 +19,11 @@ public class LinkDTO {
         this.name = name;
     }
 
+    @NotNull(groups = PutMethod.class, message = "{message.id}")
     private Long id;
     private Long accountID;
 
-    @NotBlank(message = "{message.name}")
+    @NotBlank(groups = {PostMethod.class, PutMethod.class}, message = "{message.name}")
     private String name;
     private Set<SocialDTO> socials = new HashSet<>();
     private TemplateDTO template;

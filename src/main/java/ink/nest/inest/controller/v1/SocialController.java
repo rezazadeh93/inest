@@ -11,8 +11,8 @@ import ink.nest.inest.service.LinkCrudService;
 import ink.nest.inest.service.SocialCrudService;
 import ink.nest.inest.service.SocialNameCrudService;
 import ink.nest.inest.utility.Messages;
-import ink.nest.inest.validation.SocialPost;
-import ink.nest.inest.validation.SocialPut;
+import ink.nest.inest.validation.PostMethod;
+import ink.nest.inest.validation.PutMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +72,7 @@ public class SocialController {
 
     @PostMapping("social")
     @ResponseStatus(HttpStatus.CREATED)
-    public SocialDTO connectNewSocial(@Validated(SocialPost.class) @RequestBody SocialDTO socialDTO) {
+    public SocialDTO connectNewSocial(@Validated(PostMethod.class) @RequestBody SocialDTO socialDTO) {
         socialDTO.setId(null);
         socialDTO.setName(socialDTO.getName().toUpperCase());
 
@@ -99,7 +99,7 @@ public class SocialController {
 
     @PutMapping("social")
     @ResponseStatus(HttpStatus.OK)
-    public SocialDTO updateSocial(@Validated(SocialPut.class) @RequestBody SocialDTO socialDTO) {
+    public SocialDTO updateSocial(@Validated(PutMethod.class) @RequestBody SocialDTO socialDTO) {
         Link linkFound = linkCrudService.findLinkByID(socialDTO.getLinkID())
                 .orElseThrow(() -> new ResourceNotFoundException(
                                 messages.getExceptionMessage("message.notFound",

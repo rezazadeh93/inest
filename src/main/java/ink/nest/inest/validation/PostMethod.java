@@ -1,4 +1,4 @@
 package ink.nest.inest.validation;
 
-public interface SocialPost {
+public interface PostMethod {
 }

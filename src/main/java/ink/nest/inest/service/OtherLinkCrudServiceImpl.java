@@ -8,8 +8,10 @@ import ink.nest.inest.exception.ResourceExistsException;
 import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.security.JwtTokenUtil;
 import ink.nest.inest.utility.Messages;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -37,10 +39,15 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
 
     @Override
     public Optional<OtherLink> findByName(@NonNull final String name) {
+
+
         return getAccount()
                 .getOtherLinks()
                 .stream()
-                .filter(otherLink -> otherLink.getName().equals(name))
+                .filter(otherLink -> {
+                    System.out.println(otherLink.getName());
+                    return otherLink.getName().equals(name);
+                })
                 .findFirst();
     }
 
@@ -57,7 +64,7 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
                             List.of(otherLink.getName()))
             );
         }
-
+        
         OtherLink otherLinkToSave = new OtherLink(
                 otherLink.getName(),
                 otherLink.getLabel(),
@@ -116,17 +123,6 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
                 ));
     }
 
-    private Optional<OtherLink> saveAccount(@NonNull OtherLink otherLink, Account accountFound) {
-        return accountCrudService.saveAccount(accountFound)
-                .orElseThrow(() -> new InternalServerException(
-                                messages.getExceptionMessage("message.internalServerError",
-                                        List.of(otherLink.getName()))
-                        )
-                ).getOtherLinks()
-                .stream().filter(elm -> elm.getName().equals(otherLink.getName()))
-                .findFirst();
-    }
-
     private Account getAccount() {
         //get token from header
         String token = Objects.requireNonNull(request.getHeader(InestApiConstant.HEADER_AUTHORIZATION))
@@ -142,5 +138,16 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
                                 )
                         )
                 );
+    }
+
+    private Optional<OtherLink> saveAccount(@NonNull OtherLink otherLink, Account accountFound) {
+        return accountCrudService.saveAccount(accountFound)
+                .orElseThrow(() -> new InternalServerException(
+                                messages.getExceptionMessage("message.internalServerError",
+                                        List.of(otherLink.getName()))
+                        )
+                ).getOtherLinks()
+                .stream().filter(elm -> elm.getName().equals(otherLink.getName()))
+                .findFirst();
     }
 }

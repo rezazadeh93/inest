@@ -41,6 +41,7 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Link> links = new HashSet<>();
 
+    @Column(columnDefinition = "text")
     @Convert(converter = HashSetConverter.class)
     private Set<OtherLink> otherLinks = new HashSet<>();
 

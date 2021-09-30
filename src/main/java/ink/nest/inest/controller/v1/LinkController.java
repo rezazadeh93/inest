@@ -11,6 +11,7 @@ import ink.nest.inest.service.AccountCrudService;
 import ink.nest.inest.service.LinkCrudService;
 import ink.nest.inest.utility.Messages;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
@@ -70,9 +71,9 @@ public class LinkController {
                 );
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("link")
-    public LinkDTO createLink(@Valid @RequestBody LinkDTO linkRequest, WebRequest request) {
+    public LinkDTO createLink(@Validated(PostMapping.class) @RequestBody LinkDTO linkRequest, WebRequest request) {
         //get token from header
         String token = Objects.requireNonNull(request.getHeader(InestApiConstant.HEADER_AUTHORIZATION))
                 .split(" ")[1];
@@ -107,7 +108,7 @@ public class LinkController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("link")
-    public LinkDTO updateLink(@Valid @RequestBody LinkDTO linkRequest, WebRequest request) {
+    public LinkDTO updateLink(@Validated(PutMapping.class) @RequestBody LinkDTO linkRequest, WebRequest request) {
         return createLink(linkRequest, request);
     }
 

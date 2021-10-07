@@ -1,16 +1,23 @@
+server:
+  port: 80
+  servlet:
+    context-path: /
+
 spring:
   security:
     filter:
       order: 10
   web:
     locale: en
-
-server:
-  port: 2000
   servlet:
-    context-path: /
+    multipart:
+      enabled: true
+      max-request-size: 256MB
+      max-file-size: 256MB
 
 jwt:
   issuer: https://inest.ink/auth/token
   secret: e_bW^+m#<ny~/xP-Wxw`h|YMj>*>GX
 
+file:
+  upload-dir: /home/amin/javaProjects/inest

@@ -15,9 +15,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD='DB!@#'
+      POSTGRES_PASSWORD: 'DB!@#'
     volumes:
-      - database-data:/var/lib/postgresql/data
+      - postgresql_data:/var/lib/postgresql/data
     restart: unless-stopped
   pgadmin:
     container_name: pgadmin4_container
@@ -28,5 +28,28 @@ services:
     ports:
       - 2003:80
 
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+    - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: MongoDB123
+    volumes:
+      - mongodb_data:/data/db
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 2004:8081
+    environment:
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:MongoDB123@mongo:27017/
+
 volumes:
-  database-data:
+  postgresql_data:
+  mongodb_data:
+

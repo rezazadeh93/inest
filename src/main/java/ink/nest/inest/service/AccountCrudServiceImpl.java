@@ -19,7 +19,9 @@ public class AccountCrudServiceImpl implements AccountCrudService {
     private final AccountMapper accountMapper;
     private final Messages messages;
 
-    public AccountCrudServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, Messages messages) {
+    public AccountCrudServiceImpl(AccountRepository accountRepository,
+                                  AccountMapper accountMapper,
+                                  Messages messages) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
         this.messages = messages;

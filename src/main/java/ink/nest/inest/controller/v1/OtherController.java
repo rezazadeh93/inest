@@ -1,16 +1,14 @@
 package ink.nest.inest.controller.v1;
 
+import ink.nest.inest.api.v1.model.OtherLinkDTO;
 import ink.nest.inest.constant.InestApiConstant;
-import ink.nest.inest.domain.OtherLink;
 import ink.nest.inest.exception.ResourceNotFoundException;
 import ink.nest.inest.service.OtherLinkCrudService;
 import ink.nest.inest.utility.Messages;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
@@ -28,13 +26,13 @@ public class OtherController {
 
     @GetMapping("/link/others")
     @ResponseStatus(HttpStatus.OK)
-    Set<OtherLink> getAllOtherLinks() {
+    Set<OtherLinkDTO> getAllOtherLinks() {
         return otherLinkCrudService.getAll();
     }
 
     @GetMapping("/link/other")
     @ResponseStatus(HttpStatus.OK)
-    OtherLink getOtherLink(@RequestParam("name") String name) {
+    OtherLinkDTO getOtherLink(@RequestParam("name") String name) {
         return otherLinkCrudService.findByName(name)
                 .orElseThrow(() -> new ResourceNotFoundException(
                                 messages.getExceptionMessage("message.notFound",
@@ -45,7 +43,7 @@ public class OtherController {
 
     @PostMapping("/link/other")
     @ResponseStatus(HttpStatus.CREATED)
-    OtherLink createOtherLink(@Valid @RequestBody OtherLink otherLink) {
+    OtherLinkDTO createOtherLink(@Valid @RequestBody OtherLinkDTO otherLink) {
         return otherLinkCrudService.saveOtherLink(otherLink)
                 .orElseThrow(() -> new ResourceNotFoundException(
                                 messages.getExceptionMessage("message.notFound",
@@ -56,7 +54,7 @@ public class OtherController {
 
     @PutMapping("/link/other")
     @ResponseStatus(HttpStatus.OK)
-    OtherLink updateOtherLink(@Valid @RequestBody OtherLink otherLink) {
+    OtherLinkDTO updateOtherLink(@Valid @RequestBody OtherLinkDTO otherLink) {
         return otherLinkCrudService.updateOtherLink(otherLink)
                 .orElseThrow(() -> new ResourceNotFoundException(
                                 messages.getExceptionMessage("message.notFound",

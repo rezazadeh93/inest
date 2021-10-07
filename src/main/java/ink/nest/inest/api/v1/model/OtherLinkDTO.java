@@ -1,4 +1,4 @@
-package ink.nest.inest.domain;
+package ink.nest.inest.api.v1.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OtherLink implements Serializable {
+public class OtherLinkDTO implements Serializable {
     @NotBlank(message = "{message.name}")
     private String name;
 

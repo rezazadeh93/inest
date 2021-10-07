@@ -1,47 +1,40 @@
 package ink.nest.inest.service;
 
-import ink.nest.inest.constant.InestApiConstant;
+import ink.nest.inest.api.v1.model.OtherLinkDTO;
 import ink.nest.inest.domain.Account;
-import ink.nest.inest.domain.OtherLink;
 import ink.nest.inest.exception.InternalServerException;
 import ink.nest.inest.exception.ResourceExistsException;
 import ink.nest.inest.exception.ResourceNotFoundException;
-import ink.nest.inest.security.JwtTokenUtil;
 import ink.nest.inest.utility.Messages;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
     private final AccountCrudService accountCrudService;
-    private final HttpServletRequest request;
-    private final JwtTokenUtil jwtTokenUtil;
     private final Messages messages;
+    private final ActiveUserService activeUserService;
 
     public OtherLinkCrudServiceImpl(AccountCrudService accountCrudService,
-                                    HttpServletRequest request,
-                                    JwtTokenUtil jwtTokenUtil, Messages messages) {
+                                    Messages messages,
+                                    ActiveUserService activeUserService) {
         this.accountCrudService = accountCrudService;
-        this.request = request;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.activeUserService = activeUserService;
         this.messages = messages;
     }
 
     @Override
-    public Set<OtherLink> getAll() {
-        return getAccount().getOtherLinks();
+    public Set<OtherLinkDTO> getAll() {
+        return activeUserService.currentAccount().getOtherLinks();
     }
 
     @Override
-    public Optional<OtherLink> findByName(@NonNull final String name) {
-
-
-        return getAccount()
+    public Optional<OtherLinkDTO> findByName(@NonNull final String name) {
+        return activeUserService.currentAccount()
                 .getOtherLinks()
                 .stream()
                 .filter(otherLink -> {
@@ -52,9 +45,9 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
     }
 
     @Override
-    public Optional<OtherLink> saveOtherLink(@NonNull final OtherLink otherLink) {
+    public Optional<OtherLinkDTO> saveOtherLink(@NonNull final OtherLinkDTO otherLink) {
         // find account
-        Account accountFound = getAccount();
+        Account accountFound = activeUserService.currentAccount();
 
         if (accountFound.getOtherLinks()
                 .stream()
@@ -65,7 +58,7 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
             );
         }
 
-        OtherLink otherLinkToSave = new OtherLink(
+        OtherLinkDTO otherLinkToSave = new OtherLinkDTO(
                 otherLink.getName(),
                 otherLink.getLabel(),
                 otherLink.getUrl()
@@ -77,9 +70,9 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
     }
 
     @Override
-    public Optional<OtherLink> updateOtherLink(@NonNull final OtherLink otherLink) {
+    public Optional<OtherLinkDTO> updateOtherLink(@NonNull final OtherLinkDTO otherLink) {
         //find account
-        Account accountFound = getAccount();
+        Account accountFound = activeUserService.currentAccount();
 
         if (accountFound.getOtherLinks()
                 .stream()
@@ -105,7 +98,7 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
 
     @Override
     public void deleteByName(@NonNull final String name) {
-        Account accountFound = getAccount();
+        Account accountFound = activeUserService.currentAccount();
 
         if (!accountFound.getOtherLinks()
                 .removeIf(otherLink -> otherLink.getName().equals(name)))
@@ -123,24 +116,7 @@ public class OtherLinkCrudServiceImpl implements OtherLinkCrudService {
                 ));
     }
 
-    private Account getAccount() {
-        //get token from header
-        String token = Objects.requireNonNull(request.getHeader(InestApiConstant.HEADER_AUTHORIZATION))
-                .replace(InestApiConstant.HEADER_BEARER, "");
-
-        String username = jwtTokenUtil.getUsername(token);
-
-        return accountCrudService.findAccountByEmail(username)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                                messages.getExceptionMessage(
-                                        "message.notFound",
-                                        Collections.singletonList(username)
-                                )
-                        )
-                );
-    }
-
-    private Optional<OtherLink> saveAccount(@NonNull OtherLink otherLink, Account accountFound) {
+    private Optional<OtherLinkDTO> saveAccount(@NonNull OtherLinkDTO otherLink, Account accountFound) {
         return accountCrudService.saveAccount(accountFound)
                 .orElseThrow(() -> new InternalServerException(
                                 messages.getExceptionMessage("message.internalServerError",

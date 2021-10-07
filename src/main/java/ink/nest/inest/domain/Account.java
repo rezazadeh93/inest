@@ -1,5 +1,6 @@
 package ink.nest.inest.domain;
 
+import ink.nest.inest.api.v1.model.OtherLinkDTO;
 import ink.nest.inest.convertor.HashSetConverter;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -43,7 +44,7 @@ public class Account {
 
     @Column(columnDefinition = "text")
     @Convert(converter = HashSetConverter.class)
-    private Set<OtherLink> otherLinks = new HashSet<>();
+    private Set<OtherLinkDTO> otherLinks = new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
     private Permission permission = Permission.USER;

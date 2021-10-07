@@ -1,5 +1,6 @@
 package ink.nest.inest.api.v1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ink.nest.inest.validation.PostMethod;
 import ink.nest.inest.validation.PutMethod;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,7 @@ public class LinkDTO {
     @NotBlank(groups = {PostMethod.class, PutMethod.class}, message = "{message.name}")
     private String name;
     private Set<SocialDTO> socials = new HashSet<>();
+
+    @JsonIgnore
     private TemplateDTO template;
 }

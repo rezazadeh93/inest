@@ -14,11 +14,18 @@ public class Messages {
         this.messages = messages;
     }
 
+    public String getExceptionMessage(String code, Object arg) {
+        return messages.getMessage(code,
+                List.of(arg).toArray(),
+                LocaleContextHolder.getLocale());
+    }
+
     public String getExceptionMessage(String code, List<Object> arg) {
         return messages.getMessage(code,
                 arg.toArray(),
                 LocaleContextHolder.getLocale());
     }
+
     public String getExceptionMessage(String code) {
         return messages.getMessage(code,
                 null,

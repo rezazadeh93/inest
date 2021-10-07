@@ -3,7 +3,7 @@ package ink.nest.inest.convertor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ink.nest.inest.domain.OtherLink;
+import ink.nest.inest.api.v1.model.OtherLinkDTO;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.AttributeConverter;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
-public class HashSetConverter implements AttributeConverter<Set<OtherLink>, String> {
+public class HashSetConverter implements AttributeConverter<Set<OtherLinkDTO>, String> {
     private final ObjectMapper objectMapper;
 
     public HashSetConverter(ObjectMapper objectMapper) {
@@ -21,7 +21,7 @@ public class HashSetConverter implements AttributeConverter<Set<OtherLink>, Stri
     }
 
     @Override
-    public String convertToDatabaseColumn(Set<OtherLink> otherLinks) {
+    public String convertToDatabaseColumn(Set<OtherLinkDTO> otherLinks) {
         String otherLinkJSON = null;
         try {
             otherLinkJSON = objectMapper.writeValueAsString(otherLinks);
@@ -33,8 +33,8 @@ public class HashSetConverter implements AttributeConverter<Set<OtherLink>, Stri
     }
 
     @Override
-    public Set<OtherLink> convertToEntityAttribute(String otherLinkJSON) {
-        Set<OtherLink> otherLink = null;
+    public Set<OtherLinkDTO> convertToEntityAttribute(String otherLinkJSON) {
+        Set<OtherLinkDTO> otherLink = null;
 
         if (Objects.isNull(otherLinkJSON))
             return new HashSet<>();

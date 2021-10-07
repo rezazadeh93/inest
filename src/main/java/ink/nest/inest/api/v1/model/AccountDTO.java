@@ -1,16 +1,12 @@
 package ink.nest.inest.api.v1.model;
 
-import ink.nest.inest.domain.Link;
-import ink.nest.inest.domain.OtherLink;
 import ink.nest.inest.domain.Permission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -29,7 +25,7 @@ public class AccountDTO {
     private boolean isVerified;
 
     private Set<LinkDTO> links = new HashSet<>();
-    private Set<OtherLink> otherLinks = new HashSet<>();
+    private Set<OtherLinkDTO> otherLinks = new HashSet<>();
 
     private Permission permission;
     private LocalDate createAt;

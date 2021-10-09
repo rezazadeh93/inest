@@ -19,5 +19,6 @@ spring:
       host: mongo
       port: 27017
       database: inest
-      username: inest
-      password: 'DB!@#'
+      username: root
+      password: MongoDB123
+

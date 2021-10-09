@@ -20,4 +20,5 @@ jwt:
   secret: e_bW^+m#<ny~/xP-Wxw`h|YMj>*>GX
 
 file:
-  upload-dir: /home/amin/javaProjects/inest
+  upload:
+    uploadDir: /app/uploads/images/

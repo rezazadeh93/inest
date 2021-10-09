@@ -34,3 +34,6 @@ build/
 
 ### ZIP Files
 *.zip
+
+### Upload images
+/uploads/

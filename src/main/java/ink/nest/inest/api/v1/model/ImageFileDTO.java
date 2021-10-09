@@ -13,7 +13,7 @@ public class ImageFileDTO {
     private UUID uid;
     private String name;
     private String imageType;
-    private String size;
+    private Long size;
     private String imageUrl;
     private Long accountID;
 }

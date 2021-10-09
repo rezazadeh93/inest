@@ -36,15 +36,14 @@ public class ImageController {
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
-            log.info("Could not determine file type.");
+            log.error("Could not determine file type.");
         }
 
         // Fallback to the default content type if type could not be determined
         if (contentType == null) {
             contentType = "application/octet-stream";
         }
-        System.out.println(resource.getFilename());
-String sda = resource.getFilename();
+
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(

@@ -13,12 +13,11 @@ spring:
     url: "jdbc:postgresql://localhost:5432/inest"
     username: inest
     password: 'DB!@#'
-
   data:
     mongodb:
       host: mongo
       port: 27017
       database: inest
-      username: root
-      password: MongoDB123
+      username: inest
+      password: 'DB!@#'
 

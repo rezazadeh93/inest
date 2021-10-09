@@ -1404,6 +1404,186 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "Get Image by UID",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMzNjE1NzcyLCJleHAiOjE2MzQyMjA1NzJ9.vZNbWYi2oMpE1RsyTI1HdnzdEC7s6iHAKPdPhWizUVsKCiTRHSzWaTl9J4hUJI4l9L3L9KnXhcPksFcwbYRymQ",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2000/api/v1/image/2ad3a643-b2c3-45bc-8f03-ce3d9aa8f192",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"image",
+								"2ad3a643-b2c3-45bc-8f03-ce3d9aa8f192"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload New Image",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenType",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluQGdtYWlsLmNvbSxbVVNFUl0iLCJpc3MiOiJodHRwczovL2luZXN0Lmluay9hdXRoL3Rva2VuIiwiaWF0IjoxNjMzNjE1NzcyLCJleHAiOjE2MzQyMjA1NzJ9.vZNbWYi2oMpE1RsyTI1HdnzdEC7s6iHAKPdPhWizUVsKCiTRHSzWaTl9J4hUJI4l9L3L9KnXhcPksFcwbYRymQ",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "logo dark",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/amin/Downloads/logo-white.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/api/v1/image/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"api",
+								"v1",
+								"image",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
